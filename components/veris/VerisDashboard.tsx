@@ -411,103 +411,139 @@ export function transferEscrowFunds(recipient: any, amount: any) {
   return (
     <div className="min-h-screen text-[#0F172A] flex flex-col font-sans">
       {/* Top Navbar */}
-      <header className="bg-white/90 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-30 px-6 py-3.5 flex items-center justify-between shadow-2xs">
-        <div className="flex items-center gap-6">
-          {/* Logo */}
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-teal-600 flex items-center justify-center text-white shadow-xs">
-              <ShieldCheck className="w-4.5 h-4.5" />
+      <header className="bg-white/95 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-30 shadow-2xs">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-4 sm:gap-6">
+            {/* Logo */}
+            <div className="flex items-center gap-2 sm:gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-teal-600 flex items-center justify-center text-white shadow-xs shrink-0">
+                <ShieldCheck className="w-4.5 h-4.5" />
+              </div>
+              <div>
+                <span className="font-sans font-extrabold text-base sm:text-lg text-slate-900 tracking-tight block leading-tight">
+                  Veris
+                </span>
+                <span className="text-[9px] sm:text-[10px] text-teal-800/80 font-mono uppercase tracking-[0.14em] font-semibold block">
+                  Milestone Escrow & Reputation
+                </span>
+              </div>
             </div>
-            <div>
-              <span className="font-sans font-extrabold text-lg text-slate-900 tracking-tight block leading-tight">
-                Veris
-              </span>
-              <span className="text-[10px] text-teal-800/80 font-mono uppercase tracking-[0.14em] font-semibold block">
-                Milestone Escrow & Reputation
-              </span>
-            </div>
+
+            {/* Desktop Navigation Tabs */}
+            <nav className="hidden md:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/60">
+              <button
+                onClick={() => setActiveTab("wizard")}
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold tracking-[-0.01em] transition cursor-pointer ${
+                  activeTab === "wizard"
+                    ? "bg-white text-teal-700 shadow-2xs"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                Milestone Escrow
+              </button>
+              <button
+                onClick={() => setActiveTab("contractors")}
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold tracking-[-0.01em] transition cursor-pointer ${
+                  activeTab === "contractors"
+                    ? "bg-white text-teal-700 shadow-2xs"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                Contractor Directory
+              </button>
+              <button
+                onClick={() => setActiveTab("audit")}
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold tracking-[-0.01em] transition cursor-pointer ${
+                  activeTab === "audit"
+                    ? "bg-white text-teal-700 shadow-2xs"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                Audit Ledger ({auditLogs.length})
+              </button>
+            </nav>
           </div>
 
-          {/* Navigation Tabs */}
-          <nav className="hidden sm:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/60">
+          {/* Network & Actions */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-lg badge-sapphire text-xs font-medium">
+              <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+              <span>Arc Testnet</span>
+              <span className="font-mono font-bold tracking-tight">5042002</span>
+            </div>
+
+            <div className="hidden sm:flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg badge-teal text-xs font-medium">
+              <Coins className="w-3.5 h-3.5" />
+              <span>Native USDC Gas</span>
+            </div>
+
             <button
-              onClick={() => setActiveTab("wizard")}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold tracking-[-0.01em] transition cursor-pointer ${
-                activeTab === "wizard"
-                  ? "bg-white text-teal-700 shadow-2xs"
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
+              onClick={() => setShowCreateModal(true)}
+              className="px-3 sm:px-4 py-2 rounded-xl btn-primary text-xs cursor-pointer flex items-center gap-1.5 font-medium tracking-[-0.01em] whitespace-nowrap"
             >
-              Milestone Escrow
+              <span>+ Create <span className="hidden xs:inline">Milestone</span></span>
             </button>
-            <button
-              onClick={() => setActiveTab("contractors")}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold tracking-[-0.01em] transition cursor-pointer ${
-                activeTab === "contractors"
-                  ? "bg-white text-teal-700 shadow-2xs"
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
-            >
-              Contractor Directory
-            </button>
-            <button
-              onClick={() => setActiveTab("audit")}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold tracking-[-0.01em] transition cursor-pointer ${
-                activeTab === "audit"
-                  ? "bg-white text-teal-700 shadow-2xs"
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
-            >
-              Audit Ledger ({auditLogs.length})
-            </button>
-          </nav>
+          </div>
         </div>
 
-        {/* Network & Actions */}
-        <div className="flex items-center gap-3">
-          <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg badge-sapphire text-xs font-medium">
-            <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
-            <span>Arc Testnet</span>
-            <span className="font-mono font-bold tracking-tight">5042002</span>
-          </div>
-
-          <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg badge-teal text-xs font-medium">
-            <Coins className="w-3.5 h-3.5" />
-            <span>Native USDC Gas</span>
-          </div>
-
+        {/* Mobile Navigation Tabs Bar */}
+        <div className="flex md:hidden border-t border-slate-100 px-3 py-1.5 bg-slate-50/80 overflow-x-auto gap-1.5">
           <button
-            onClick={() => setShowCreateModal(true)}
-            className="px-4 py-2 rounded-xl btn-primary text-xs cursor-pointer flex items-center gap-1.5 font-medium tracking-[-0.01em]"
+            onClick={() => setActiveTab("wizard")}
+            className={`flex-1 min-w-[90px] py-1.5 px-2 rounded-lg text-[11px] font-semibold text-center whitespace-nowrap transition cursor-pointer ${
+              activeTab === "wizard"
+                ? "bg-white text-teal-800 shadow-2xs border border-slate-200/80 font-bold"
+                : "text-slate-600 hover:text-slate-900"
+            }`}
           >
-            <span>+ Create Milestone</span>
+            Escrow
+          </button>
+          <button
+            onClick={() => setActiveTab("contractors")}
+            className={`flex-1 min-w-[90px] py-1.5 px-2 rounded-lg text-[11px] font-semibold text-center whitespace-nowrap transition cursor-pointer ${
+              activeTab === "contractors"
+                ? "bg-white text-teal-800 shadow-2xs border border-slate-200/80 font-bold"
+                : "text-slate-600 hover:text-slate-900"
+            }`}
+          >
+            Contractors
+          </button>
+          <button
+            onClick={() => setActiveTab("audit")}
+            className={`flex-1 min-w-[90px] py-1.5 px-2 rounded-lg text-[11px] font-semibold text-center whitespace-nowrap transition cursor-pointer ${
+              activeTab === "audit"
+                ? "bg-white text-teal-800 shadow-2xs border border-slate-200/80 font-bold"
+                : "text-slate-600 hover:text-slate-900"
+            }`}
+          >
+            Audit ({auditLogs.length})
           </button>
         </div>
       </header>
 
       {/* Main Container */}
-      <main className="flex-1 max-w-5xl mx-auto w-full p-6 space-y-6">
+      <main className="flex-1 max-w-5xl mx-auto w-full p-3.5 sm:p-6 space-y-4 sm:space-y-6">
         {activeTab === "wizard" && (
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {/* Milestone Selector Bar */}
-            <div className="premium-card p-4 flex flex-wrap items-center justify-between gap-4">
-              <div className="flex flex-wrap items-center gap-3">
-                <span className="text-xs font-semibold text-slate-500 font-sans">Active Milestone:</span>
+            <div className="premium-card p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 w-full sm:w-auto">
+                <span className="text-xs font-semibold text-slate-500 font-sans shrink-0">Active Milestone:</span>
                 
                 {/* Quick-Switch Milestone Chips */}
-                <div className="flex flex-wrap items-center gap-1.5">
+                <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 w-full sm:w-auto max-w-full">
                   {jobs.map((job) => (
                     <button
                       key={job.id}
                       onClick={() => setSelectedJobId(job.id)}
-                      className={`px-3 py-1.5 rounded-lg text-xs transition cursor-pointer flex items-center gap-2 ${
+                      className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs transition cursor-pointer flex items-center gap-1.5 sm:gap-2 shrink-0 ${
                         selectedJobId === job.id
                           ? "bg-slate-900 text-white shadow-xs font-semibold"
                           : "bg-slate-100 hover:bg-slate-200/80 text-slate-700 font-medium"
                       }`}
                     >
                       <span
-                        className={`w-2 h-2 rounded-full ${
+                        className={`w-2 h-2 rounded-full shrink-0 ${
                           job.state === "REPUTATION_UPDATED" || job.state === "RELEASED"
                             ? "bg-emerald-400"
                             : job.state === "FUNDED"
@@ -515,16 +551,16 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                             : "bg-amber-400"
                         }`}
                       />
-                      <span className="truncate max-w-[130px] sm:max-w-[180px]">{job.title}</span>
+                      <span className="truncate max-w-[120px] sm:max-w-[180px]">{job.title}</span>
                       <span className="font-mono text-[11px] opacity-80">${job.amountUSDC}</span>
                     </button>
                   ))}
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center justify-between sm:justify-end gap-2 shrink-0">
                 <span
-                  className={`px-3 py-1 rounded-full text-[11px] font-semibold font-mono uppercase tracking-wider ${
+                  className={`px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-semibold font-mono uppercase tracking-wider ${
                     activeJob?.state === "REPUTATION_UPDATED" || activeJob?.state === "RELEASED"
                       ? "badge-emerald"
                       : activeJob?.state === "FUNDED"
@@ -538,10 +574,10 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                 </span>
                 <button
                   onClick={fetchJobs}
-                  className="p-2 rounded-lg hover:bg-slate-100 text-slate-500 hover:text-slate-800 border border-transparent hover:border-slate-200 transition cursor-pointer"
+                  className="p-1.5 sm:p-2 rounded-lg hover:bg-slate-100 text-slate-500 hover:text-slate-800 border border-transparent hover:border-slate-200 transition cursor-pointer"
                   title="Refresh Milestones"
                 >
-                  <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin text-teal-600" : ""}`} />
+                  <RefreshCw className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${loading ? "animate-spin text-teal-600" : ""}`} />
                 </button>
               </div>
             </div>
@@ -549,16 +585,16 @@ export function transferEscrowFunds(recipient: any, amount: any) {
             {activeJob ? (
               <>
                 {/* Milestone Overview Card */}
-                <div className="premium-card p-6 sm:p-7">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-slate-100 gap-4">
+                <div className="premium-card p-4 sm:p-6 lg:p-7">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-5 sm:pb-6 border-b border-slate-100 gap-4">
                     <div>
-                      <span className="text-[11px] font-mono uppercase tracking-[0.15em] text-teal-700 font-bold block mb-1.5">
+                      <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.15em] text-teal-700 font-bold block mb-1">
                         Contract Agreement · Arc-5042002
                       </span>
-                      <h1 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-slate-900 tracking-tight leading-[1.2]">
+                      <h1 className="text-xl sm:text-3xl lg:text-4xl font-serif font-bold text-slate-900 tracking-tight leading-[1.2]">
                         {activeJob.title}
                       </h1>
-                      <div className="flex flex-wrap items-center gap-3 mt-2 text-xs text-slate-500">
+                      <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-2 text-xs text-slate-500">
                         <span>
                           Contractor:{" "}
                           <span className="font-mono text-slate-800 font-medium">
@@ -572,17 +608,17 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                             {activeJob.client.substring(0, 6)}...{activeJob.client.substring(38)}
                           </span>
                         </span>
-                        <span>•</span>
-                        <span className="font-mono text-slate-400">ID: {activeJob.id}</span>
+                        <span className="hidden sm:inline">•</span>
+                        <span className="font-mono text-slate-400 hidden sm:inline">ID: {activeJob.id}</span>
                       </div>
                     </div>
 
-                    <div className="text-right flex sm:flex-col items-center sm:items-end justify-between">
+                    <div className="text-right flex sm:flex-col items-center sm:items-end justify-between border-t sm:border-t-0 pt-3 sm:pt-0 border-slate-100">
                       <span className="text-[10px] font-mono uppercase tracking-[0.14em] text-slate-400 font-semibold block">
                         Escrow Balance
                       </span>
                       <div className="flex items-baseline gap-1.5 mt-0.5">
-                        <span className="text-3xl sm:text-4xl font-serif font-bold text-slate-900 tracking-tight tabular-nums">
+                        <span className="text-2xl sm:text-4xl font-serif font-bold text-slate-900 tracking-tight tabular-nums">
                           ${activeJob.amountUSDC.toFixed(2)}
                         </span>
                         <span className="text-xs font-mono font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded-md border border-teal-200 tracking-wide">
@@ -593,12 +629,12 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                   </div>
 
                   {/* 3-Step Guided Stepper Navigation */}
-                  <div className="pt-6">
-                    <div className="grid grid-cols-3 gap-2 sm:gap-4">
+                  <div className="pt-4 sm:pt-6">
+                    <div className="grid grid-cols-3 gap-1.5 sm:gap-4">
                       {/* Step 1 Pill */}
                       <button
                         onClick={() => setWizardStep(1)}
-                        className={`text-left p-3.5 sm:p-4 rounded-xl border transition cursor-pointer ${
+                        className={`text-left p-2.5 sm:p-4 rounded-xl border transition cursor-pointer ${
                           wizardStep === 1
                             ? "bg-teal-50/70 border-teal-500 ring-2 ring-teal-500/20 shadow-xs"
                             : activeJob.state !== "CREATED"
@@ -606,9 +642,9 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                             : "bg-slate-50 border-slate-200 text-slate-500"
                         }`}
                       >
-                        <div className="flex items-center gap-2.5">
+                        <div className="flex flex-col sm:flex-row items-center sm:items-center gap-1 sm:gap-2.5 text-center sm:text-left">
                           <span
-                            className={`h-7 w-7 rounded-lg flex items-center justify-center font-mono text-xs font-bold tracking-tight ${
+                            className={`h-6 w-6 sm:h-7 sm:w-7 rounded-lg flex items-center justify-center font-mono text-xs font-bold tracking-tight shrink-0 ${
                               wizardStep === 1
                                 ? "bg-teal-600 text-white"
                                 : activeJob.state !== "CREATED"
@@ -618,8 +654,8 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                           >
                             {activeJob.state !== "CREATED" ? <Check className="w-3.5 h-3.5 stroke-[3]" /> : "01"}
                           </span>
-                          <span className="text-xs sm:text-sm font-sans font-bold text-slate-900 tracking-tight">
-                            1. Fund Escrow
+                          <span className="text-[11px] sm:text-sm font-sans font-bold text-slate-900 tracking-tight leading-tight">
+                            <span className="hidden xs:inline">1. </span>Fund<span className="hidden sm:inline"> Escrow</span>
                           </span>
                         </div>
                         <p className="text-[11px] text-slate-500 mt-1 pl-9.5 hidden sm:block">
@@ -630,7 +666,7 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                       {/* Step 2 Pill */}
                       <button
                         onClick={() => setWizardStep(2)}
-                        className={`text-left p-3.5 sm:p-4 rounded-xl border transition cursor-pointer ${
+                        className={`text-left p-2.5 sm:p-4 rounded-xl border transition cursor-pointer ${
                           wizardStep === 2
                             ? "bg-teal-50/70 border-teal-500 ring-2 ring-teal-500/20 shadow-xs"
                             : ["DELIVERABLE_SUBMITTED", "VERIFYING", "RELEASED", "REPUTATION_UPDATED"].includes(activeJob.state)
@@ -638,9 +674,9 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                             : "bg-slate-50 border-slate-200 text-slate-500"
                         }`}
                       >
-                        <div className="flex items-center gap-2.5">
+                        <div className="flex flex-col sm:flex-row items-center sm:items-center gap-1 sm:gap-2.5 text-center sm:text-left">
                           <span
-                            className={`h-7 w-7 rounded-lg flex items-center justify-center font-mono text-xs font-bold tracking-tight ${
+                            className={`h-6 w-6 sm:h-7 sm:w-7 rounded-lg flex items-center justify-center font-mono text-xs font-bold tracking-tight shrink-0 ${
                               wizardStep === 2
                                 ? "bg-teal-600 text-white"
                                 : ["DELIVERABLE_SUBMITTED", "VERIFYING", "RELEASED", "REPUTATION_UPDATED"].includes(activeJob.state)
@@ -654,8 +690,8 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                               "02"
                             )}
                           </span>
-                          <span className="text-xs sm:text-sm font-sans font-bold text-slate-900 tracking-tight">
-                            2. Submit Work
+                          <span className="text-[11px] sm:text-sm font-sans font-bold text-slate-900 tracking-tight leading-tight">
+                            <span className="hidden xs:inline">2. </span>Submit<span className="hidden sm:inline"> Work</span>
                           </span>
                         </div>
                         <p className="text-[11px] text-slate-500 mt-1 pl-9.5 hidden sm:block">
@@ -666,7 +702,7 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                       {/* Step 3 Pill */}
                       <button
                         onClick={() => setWizardStep(3)}
-                        className={`text-left p-3.5 sm:p-4 rounded-xl border transition cursor-pointer ${
+                        className={`text-left p-2.5 sm:p-4 rounded-xl border transition cursor-pointer ${
                           wizardStep === 3
                             ? "bg-teal-50/70 border-teal-500 ring-2 ring-teal-500/20 shadow-xs"
                             : activeJob.state === "REPUTATION_UPDATED" || activeJob.state === "RELEASED"
@@ -674,9 +710,9 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                             : "bg-slate-50 border-slate-200 text-slate-500"
                         }`}
                       >
-                        <div className="flex items-center gap-2.5">
+                        <div className="flex flex-col sm:flex-row items-center sm:items-center gap-1 sm:gap-2.5 text-center sm:text-left">
                           <span
-                            className={`h-7 w-7 rounded-lg flex items-center justify-center font-mono text-xs font-bold tracking-tight ${
+                            className={`h-6 w-6 sm:h-7 sm:w-7 rounded-lg flex items-center justify-center font-mono text-xs font-bold tracking-tight shrink-0 ${
                               wizardStep === 3
                                 ? "bg-teal-600 text-white"
                                 : activeJob.state === "REPUTATION_UPDATED" || activeJob.state === "RELEASED"
@@ -690,8 +726,8 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                               "03"
                             )}
                           </span>
-                          <span className="text-xs sm:text-sm font-sans font-bold text-slate-900 tracking-tight">
-                            3. Verify & Settle
+                          <span className="text-[11px] sm:text-sm font-sans font-bold text-slate-900 tracking-tight leading-tight">
+                            <span className="hidden xs:inline">3. </span>Settle<span className="hidden sm:inline"> Escrow</span>
                           </span>
                         </div>
                         <p className="text-[11px] text-slate-500 mt-1 pl-9.5 hidden sm:block">
@@ -701,32 +737,32 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                     </div>
 
                     {/* Actor & Role Context Bar */}
-                    <div className="mt-4 bg-slate-50/90 border border-slate-200/80 rounded-xl px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 text-xs">
+                    <div className="mt-3 sm:mt-4 bg-slate-50/90 border border-slate-200/80 rounded-xl p-3 sm:px-4 sm:py-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-3 text-xs">
                       <div className="flex items-center gap-2">
-                        <span className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-bold">Acting Role:</span>
+                        <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-slate-400 font-bold shrink-0">Acting Role:</span>
                         {wizardStep === 1 && (
-                          <span className="px-2.5 py-0.5 rounded-md badge-teal font-mono text-[11px] font-semibold flex items-center gap-1.5">
-                            <span className="w-1.5 h-1.5 rounded-full bg-teal-600"></span>
-                            Client ({activeJob.client.substring(0, 6)}...{activeJob.client.substring(38)})
+                          <span className="px-2.5 py-0.5 rounded-md badge-teal font-mono text-[10px] sm:text-[11px] font-semibold flex items-center gap-1.5 truncate">
+                            <span className="w-1.5 h-1.5 rounded-full bg-teal-600 shrink-0"></span>
+                            <span>Client ({activeJob.client.substring(0, 6)}...{activeJob.client.substring(38)})</span>
                           </span>
                         )}
                         {wizardStep === 2 && (
-                          <span className="px-2.5 py-0.5 rounded-md badge-sapphire font-mono text-[11px] font-semibold flex items-center gap-1.5">
-                            <span className="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
-                            Contractor ({activeJob.worker.substring(0, 6)}...{activeJob.worker.substring(38)})
+                          <span className="px-2.5 py-0.5 rounded-md badge-sapphire font-mono text-[10px] sm:text-[11px] font-semibold flex items-center gap-1.5 truncate">
+                            <span className="w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0"></span>
+                            <span>Contractor ({activeJob.worker.substring(0, 6)}...{activeJob.worker.substring(38)})</span>
                           </span>
                         )}
                         {wizardStep === 3 && (
-                          <span className="px-2.5 py-0.5 rounded-md badge-amber font-mono text-[11px] font-semibold flex items-center gap-1.5">
-                            <span className="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse"></span>
-                            Veris Verifier Oracle (Groq + Arc Chain)
+                          <span className="px-2.5 py-0.5 rounded-md badge-amber font-mono text-[10px] sm:text-[11px] font-semibold flex items-center gap-1.5 truncate">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse shrink-0"></span>
+                            <span>Veris Oracle (Groq + Arc Chain)</span>
                           </span>
                         )}
                       </div>
 
                       <div className="text-slate-500 text-[11px] flex items-center gap-1.5">
-                        <span className="font-mono text-slate-400 uppercase">Objective:</span>
-                        <span className="font-semibold text-slate-800">
+                        <span className="font-mono text-slate-400 uppercase text-[10px] shrink-0">Objective:</span>
+                        <span className="font-semibold text-slate-800 leading-tight">
                           {wizardStep === 1
                             ? activeJob.state === "CREATED"
                               ? `Deposit $${activeJob.amountUSDC} USDC into Arc escrow contract`
@@ -748,35 +784,35 @@ export function transferEscrowFunds(recipient: any, amount: any) {
 
                 {/* STEP 1: FUND ESCROW */}
                 {wizardStep === 1 && (
-                  <div className="premium-card p-6 space-y-6">
-                    <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+                  <div className="premium-card p-4 sm:p-6 space-y-4 sm:space-y-6">
+                    <div className="flex items-center justify-between pb-3 sm:pb-4 border-b border-slate-100">
                       <div>
-                        <h2 className="text-lg font-serif font-bold text-slate-900 tracking-tight">Step 1: Escrow Deposit</h2>
+                        <h2 className="text-base sm:text-lg font-serif font-bold text-slate-900 tracking-tight">Step 1: Escrow Deposit</h2>
                         <p className="text-xs text-slate-500 mt-0.5">
                           Deposit and lock funds in the Arc Testnet escrow smart contract.
                         </p>
                       </div>
-                      <span className="badge-sapphire px-3 py-1 rounded-full text-[11px] font-mono font-medium">
-                        Arc Chain: 5042002
+                      <span className="badge-sapphire px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono font-medium">
+                        Arc: 5042002
                       </span>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                      <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80">
-                        <span className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-semibold block">Principal Amount</span>
-                        <span className="text-2xl font-serif font-bold text-slate-900 mt-1 block tabular-nums">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-4">
+                      <div className="p-3.5 sm:p-4 rounded-xl bg-slate-50 border border-slate-200/80">
+                        <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-slate-400 font-semibold block">Principal Amount</span>
+                        <span className="text-xl sm:text-2xl font-serif font-bold text-slate-900 mt-1 block tabular-nums">
                           ${activeJob.amountUSDC}.00 <span className="text-xs font-mono font-semibold text-slate-400">USDC</span>
                         </span>
                       </div>
-                      <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80">
-                        <span className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-semibold block">Gas Asset</span>
-                        <span className="text-base font-sans font-bold text-slate-800 mt-1.5 block tracking-tight">
+                      <div className="p-3.5 sm:p-4 rounded-xl bg-slate-50 border border-slate-200/80">
+                        <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-slate-400 font-semibold block">Gas Asset</span>
+                        <span className="text-sm sm:text-base font-sans font-bold text-slate-800 mt-1 block tracking-tight">
                           Native USDC <span className="text-xs font-normal text-teal-600">(Medium Fee)</span>
                         </span>
                       </div>
-                      <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80">
-                        <span className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-semibold block">Authority Model</span>
-                        <span className="text-base font-sans font-bold text-slate-800 mt-1.5 block tracking-tight">
+                      <div className="p-3.5 sm:p-4 rounded-xl bg-slate-50 border border-slate-200/80">
+                        <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-slate-400 font-semibold block">Authority Model</span>
+                        <span className="text-sm sm:text-base font-sans font-bold text-slate-800 mt-1 block tracking-tight">
                           Deterministic <span className="text-xs font-normal text-slate-400">(Fail-Closed)</span>
                         </span>
                       </div>
@@ -784,7 +820,7 @@ export function transferEscrowFunds(recipient: any, amount: any) {
 
                     {/* Funding Status & Action */}
                     {activeJob.state === "CREATED" ? (
-                      <div className="p-5 rounded-xl bg-teal-50/60 border border-teal-200 space-y-4">
+                      <div className="p-4 sm:p-5 rounded-xl bg-teal-50/60 border border-teal-200 space-y-3.5">
                         <div className="flex items-start gap-3">
                           <Info className="w-5 h-5 text-teal-700 shrink-0 mt-0.5" />
                           <div className="text-xs text-teal-950 leading-relaxed">
@@ -807,7 +843,7 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                         </button>
                       </div>
                     ) : (
-                      <div className="p-5 rounded-xl bg-emerald-50/60 border border-emerald-200 space-y-3">
+                      <div className="p-4 sm:p-5 rounded-xl bg-emerald-50/60 border border-emerald-200 space-y-3">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <CheckCircle2 className="w-5 h-5 text-emerald-600" />
@@ -821,9 +857,9 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                         </div>
 
                         {activeJob.fundingTxHash && (
-                          <div className="flex items-center justify-between text-xs font-mono text-slate-600 bg-white p-3 rounded-lg border border-emerald-200">
-                            <span className="text-slate-500">Arc Tx Hash:</span>
-                            <span className="text-teal-700 font-bold truncate max-w-sm">
+                          <div className="flex items-center justify-between text-xs font-mono text-slate-600 bg-white p-3 rounded-lg border border-emerald-200 gap-2">
+                            <span className="text-slate-500 shrink-0">Arc Tx Hash:</span>
+                            <span className="text-teal-700 font-bold truncate max-w-[140px] xs:max-w-[220px] sm:max-w-sm">
                               {activeJob.fundingTxHash}
                             </span>
                           </div>
@@ -919,7 +955,7 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                     ) : activeJob.state === "FUNDED" ? (
                       <div className="space-y-4">
                         {/* 1-Click Fill Buttons for Reviewers */}
-                        <div className="flex flex-wrap items-center justify-between gap-2 p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200">
                           <div className="space-y-0.5">
                             <span className="text-xs font-bold text-slate-900 block">
                               Instant Demo Deliverable Presets:
@@ -928,17 +964,17 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                               Load tested sample code to see passing vs failing verification logic.
                             </span>
                           </div>
-                          <div className="flex gap-2">
+                          <div className="flex flex-wrap gap-2 w-full sm:w-auto">
                             <button
                               onClick={loadQuickGoodDeliverable}
-                              className="px-3 py-1.5 rounded-lg badge-emerald text-xs font-semibold transition cursor-pointer shadow-2xs hover:brightness-95 tracking-[-0.01em] flex items-center gap-1.5"
+                              className="flex-1 sm:flex-none px-3 py-1.5 rounded-lg badge-emerald text-xs font-semibold transition cursor-pointer shadow-2xs hover:brightness-95 tracking-[-0.01em] flex items-center justify-center gap-1.5"
                             >
                               <Check className="w-3.5 h-3.5 stroke-[2.5]" />
                               <span>Good Code (Passes)</span>
                             </button>
                             <button
                               onClick={loadQuickBadDeliverable}
-                              className="px-3 py-1.5 rounded-lg badge-rose text-xs font-semibold transition cursor-pointer shadow-2xs hover:brightness-95 tracking-[-0.01em] flex items-center gap-1.5"
+                              className="flex-1 sm:flex-none px-3 py-1.5 rounded-lg badge-rose text-xs font-semibold transition cursor-pointer shadow-2xs hover:brightness-95 tracking-[-0.01em] flex items-center justify-center gap-1.5"
                             >
                               <XCircle className="w-3.5 h-3.5" />
                               <span>Broken Code (Fails)</span>
@@ -1052,17 +1088,17 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                       <div className="space-y-5">
                         {/* Outcome Header Box */}
                         <div
-                          className={`p-5 rounded-xl border flex items-center justify-between ${
+                          className={`p-4 sm:p-5 rounded-xl border flex flex-col xs:flex-row xs:items-center justify-between gap-3.5 ${
                             activeJob.deterministicResult?.decision === "APPROVED"
                               ? "bg-emerald-50/70 border-emerald-300 text-emerald-950"
                               : "bg-rose-50/70 border-rose-300 text-rose-950"
                           }`}
                         >
-                          <div className="flex items-center gap-3.5">
+                          <div className="flex items-start xs:items-center gap-3">
                             {activeJob.deterministicResult?.decision === "APPROVED" ? (
-                              <CheckCircle2 className="w-6 h-6 text-emerald-600 shrink-0" />
+                              <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600 shrink-0 mt-0.5 xs:mt-0" />
                             ) : (
-                              <XCircle className="w-6 h-6 text-rose-600 shrink-0" />
+                              <XCircle className="w-5 h-5 sm:w-6 sm:h-6 text-rose-600 shrink-0 mt-0.5 xs:mt-0" />
                             )}
                             <div>
                               <span className="text-sm font-serif font-bold block text-slate-900 tracking-tight">
@@ -1076,11 +1112,11 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                             </div>
                           </div>
 
-                          <div className="text-right pl-4 border-l border-current/15 shrink-0">
+                          <div className="xs:text-right pt-2 xs:pt-0 border-t xs:border-t-0 xs:pl-4 xs:border-l border-current/15 shrink-0 flex xs:flex-col items-center xs:items-end justify-between">
                             <span className="text-[10px] font-mono uppercase tracking-wider block text-slate-500 font-bold">
                               Confidence
                             </span>
-                            <span className="text-2xl font-serif font-bold text-slate-900 tabular-nums">
+                            <span className="text-xl sm:text-2xl font-serif font-bold text-slate-900 tabular-nums">
                               {(activeJob.verifierOutput.confidence * 100).toFixed(0)}%
                             </span>
                           </div>
@@ -1397,8 +1433,8 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                   </div>
 
                   {/* Delivery History Table */}
-                  <div className="border border-slate-200 rounded-xl overflow-hidden bg-slate-50/30">
-                    <table className="w-full text-left text-xs">
+                  <div className="border border-slate-200 rounded-xl overflow-x-auto bg-slate-50/30">
+                    <table className="min-w-[620px] w-full text-left text-xs">
                       <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold">
                         <tr>
                           <th className="p-3.5 text-[11px] font-mono uppercase tracking-wider">Job ID</th>
@@ -1618,8 +1654,8 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                       )}
                     </div>
 
-                    <div className="border border-slate-200 rounded-xl overflow-hidden bg-slate-50/30">
-                      <table className="w-full text-left text-xs font-mono">
+                    <div className="border border-slate-200 rounded-xl overflow-x-auto bg-slate-50/30">
+                      <table className="min-w-[620px] w-full text-left text-xs font-mono">
                         <thead className="bg-slate-50 border-b border-slate-200 text-slate-900 font-bold">
                           <tr>
                             <th className="p-3">Time</th>
@@ -1678,8 +1714,8 @@ export function transferEscrowFunds(recipient: any, amount: any) {
 
       {/* Create Milestone Modal */}
       {showCreateModal && (
-        <div className="fixed inset-0 z-50 bg-slate-900/30 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl border border-slate-200 space-y-4">
+        <div className="fixed inset-0 z-50 bg-slate-900/30 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+          <div className="bg-white rounded-2xl max-w-lg w-full max-h-[92vh] overflow-y-auto p-4 sm:p-6 shadow-xl border border-slate-200 space-y-4">
             <div className="flex items-center justify-between pb-3.5 border-b border-slate-100">
               <h3 className="font-serif font-bold text-lg text-slate-900 tracking-tight">Create New Milestone Escrow</h3>
               <button
@@ -1703,7 +1739,7 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="text-slate-900 font-semibold block mb-1">USDC Amount</label>
                   <input
