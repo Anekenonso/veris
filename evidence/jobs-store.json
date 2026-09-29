@@ -1,0 +1,95 @@
+[
+  {
+    "id": "job-001-arc-helper",
+    "title": "TypeScript USDC Escrow Transfer Helper",
+    "client": "0x71C84167608922C0E63691C74B224E825a0b77A4",
+    "worker": "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
+    "amountUSDC": 250,
+    "criteria": "1. Export an async function 'transferEscrowFunds(recipient: string, amountUSDC: number, client: CircleClient): Promise<string>'\n2. Validates recipient address is a valid 42-char hex string starting with 0x.\n3. Validates amountUSDC > 0.\n4. Includes error handling returning meaningful Error messages.\n5. Written in TypeScript with explicit types (no 'any').",
+    "state": "FUNDED",
+    "createdAt": 1790674075752,
+    "fundedAt": 1790674175752,
+    "fundingTxHash": "0x3f9821aa90be4c0b48f98df3c9b7405bead48480dc2735749a0c79e63e18a221",
+    "updatedAt": 1790674175752
+  },
+  {
+    "id": "job-002-blog-launch",
+    "title": "Arc Testnet Launch Announcement Blog Post",
+    "client": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+    "worker": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+    "amountUSDC": 150,
+    "criteria": "1. Title must mention Arc Testnet and USDC gas abstraction.\n2. Word count between 150 and 350 words.\n3. Must explicitly highlight 3 features:\n   - Native USDC for gas fees\n   - Sub-second settlement\n   - Developer-controlled agent wallets\n4. Tone must be professional, exciting, and tech-forward.",
+    "state": "FUNDED",
+    "createdAt": 1790670475752,
+    "fundedAt": 1790670675752,
+    "fundingTxHash": "0x8e12a4f6bb99201e7401bbcf8019ab7234850c91ab54032d84719bbfe716d9a0",
+    "updatedAt": 1790670675752
+  },
+  {
+    "id": "job-003-broken-code",
+    "title": "Escrow Integration Helper (Unfinished Draft)",
+    "client": "0x71C84167608922C0E63691C74B224E825a0b77A4",
+    "worker": "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
+    "amountUSDC": 300,
+    "criteria": "1. Export an async function 'transferEscrowFunds(recipient: string, amountUSDC: number, client: CircleClient): Promise<string>'\n2. Validates recipient address is a valid 42-char hex string starting with 0x.\n3. Validates amountUSDC > 0.\n4. Includes error handling returning meaningful Error messages.\n5. Written in TypeScript with explicit types (no 'any').",
+    "state": "FUNDED",
+    "createdAt": 1790675875752,
+    "fundedAt": 1790675975752,
+    "fundingTxHash": "0x12a9bc4170e882bfcd90184fa9817ea40bc892601735cb0e49bbff09871638aa",
+    "updatedAt": 1790675975752
+  },
+  {
+    "id": "job-mumjdnhx-8p9i",
+    "title": "Solidity Gas Optimization Report",
+    "client": "0x71C84167608922C0E63691C74B224E825a0b77A4",
+    "worker": "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
+    "amountUSDC": 500,
+    "criteria": "1. Must analyze gas consumption of ReputationRegistry.sol\n2. Must propose at least 2 concrete bytecode optimizations\n3. Must maintain 100% backward compatibility.",
+    "state": "REPUTATION_UPDATED",
+    "createdAt": 1790677885749,
+    "updatedAt": 1790677894729,
+    "fundedAt": 1790677887847,
+    "fundingTxHash": "0xdd0a8f28a984b25a596f0aa54a14c51d064e0012c5b2fb75939b4b5d2cdc998d",
+    "deliverable": {
+      "type": "text",
+      "content": "# Gas Optimization Report for ReputationRegistry.sol\n\n1. Storage Slot Packing:\nIn ReputationRegistry.sol, struct JobRecord packs int8 scoreDelta into the same 32-byte slot as address worker, reducing storage write costs from 20,000 gas (SSTORE) to 5,000 gas.\n\n2. Custom Errors over Require Strings:\nReplacing string require statements with custom errors (e.g. error Unauthorized()) saves ~45 gas per revert check and trims deployment bytecode size by 12%.\n\n3. Backward Compatibility:\nAll public view function signatures remain identical and 100% backward compatible.",
+      "notes": "Prepared and verified against Foundry gas benchmarks.",
+      "submittedAt": 1790677890566
+    },
+    "verifierOutput": {
+      "jobId": "job-mumjdnhx-8p9i",
+      "pass": true,
+      "confidence": 0.88,
+      "reasoning": "The deliverable provides a gas consumption analysis of ReputationRegistry.sol, proposes two specific bytecode optimizations (storage slot packing and custom errors), and asserts that public view function signatures remain unchanged, satisfying the backward compatibility requirement. Evidence directly addresses each acceptance criterion.",
+      "evidenceHash": "638e364abb26c5750224cb22c265651a705a6cf1886921aafc7def1e6681536f",
+      "model": "openai/gpt-oss-120b",
+      "timestamp": 1790677894719,
+      "criteriaBreakdown": [
+        {
+          "criterion": "Must analyze gas consumption of ReputationRegistry.sol",
+          "status": "MET",
+          "evidence": "Discusses storage slot packing reducing SSTORE gas from 20,000 to 5,000 and custom errors saving ~45 gas per revert."
+        },
+        {
+          "criterion": "Must propose at least 2 concrete bytecode optimizations",
+          "status": "MET",
+          "evidence": "Proposes storage slot packing and replacement of require strings with custom errors."
+        },
+        {
+          "criterion": "Must maintain 100% backward compatibility",
+          "status": "MET",
+          "evidence": "States all public view function signatures remain identical and 100% backward compatible."
+        }
+      ]
+    },
+    "deterministicResult": {
+      "accepted": true,
+      "decision": "APPROVED",
+      "reason": "Deliverable passed verification with confidence 0.88",
+      "validatedAt": 1790677894724
+    },
+    "settlementTxHash": "0xad5d08d36486870c9bce6ed1a58dcb20acb1e48b2beb5012a80a9a955d20f3c6",
+    "reputationTxHash": "0x6b1136ad047e4da0700bc6e8065e2f962217cb3d28dfbe1a7601f9533986c7d7",
+    "reputationScoreDelta": 1
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "address": "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
+    "score": 1,
+    "totalJobs": 1,
+    "successCount": 1,
+    "failCount": 0,
+    "history": [
+      {
+        "jobId": "job-mumjdnhx-8p9i",
+        "worker": "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
+        "scoreDelta": 1,
+        "evidenceHash": "0x638e364abb26c5750224cb22c265651a705a6cf1886921aafc7def1e6681536f",
+        "reason": "Successful verified delivery: The deliverable provides a gas consumption analysis of ReputationRegistry.sol, proposes two specific bytecode optimizati...",
+        "timestamp": 1790677894727,
+        "recorded": true
+      }
+    ]
+  }
+]

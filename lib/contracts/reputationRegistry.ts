@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import crypto from "crypto";
 
 export const REPUTATION_REGISTRY_ABI = [
   "event ReputationUpdated(address indexed worker, bytes32 indexed jobId, int8 scoreDelta, bytes32 evidenceHash, string reason, uint256 timestamp)",
@@ -39,8 +39,8 @@ export function formatBytes32String(id: string): string {
   if (id.startsWith("0x") && id.length === 66) {
     return id;
   }
-  // If it's a UUID or custom string, hash or pad
-  return ethers.keccak256(ethers.toUtf8Bytes(id));
+  const hash = crypto.createHash("sha256").update(id).digest("hex");
+  return `0x${hash}`;
 }
 
 /**
@@ -51,5 +51,6 @@ export function formatEvidenceHash(hash: string): string {
   if (clean.length === 66) {
     return clean;
   }
-  return ethers.keccak256(ethers.toUtf8Bytes(hash));
+  const digest = crypto.createHash("sha256").update(hash).digest("hex");
+  return `0x${digest}`;
 }
