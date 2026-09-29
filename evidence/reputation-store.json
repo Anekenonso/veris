@@ -1,11 +1,20 @@
 [
   {
     "address": "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
-    "score": 1,
-    "totalJobs": 1,
+    "score": 0,
+    "totalJobs": 2,
     "successCount": 1,
-    "failCount": 0,
+    "failCount": 1,
     "history": [
+      {
+        "jobId": "job-mumk40k2-yxme",
+        "worker": "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
+        "scoreDelta": -1,
+        "evidenceHash": "0xc60db58527bbe721e1cb616894ea53b81468606aad1904d00a4afd89249dce38",
+        "reason": "Failed delivery criteria: The acceptance criterion required a full report, but the submitted deliverable consists solely of a code stub with no re...",
+        "timestamp": 1790679172530,
+        "recorded": true
+      },
       {
         "jobId": "job-mumjdnhx-8p9i",
         "worker": "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",

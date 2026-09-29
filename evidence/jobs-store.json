@@ -91,5 +91,49 @@
     "settlementTxHash": "0xad5d08d36486870c9bce6ed1a58dcb20acb1e48b2beb5012a80a9a955d20f3c6",
     "reputationTxHash": "0x6b1136ad047e4da0700bc6e8065e2f962217cb3d28dfbe1a7601f9533986c7d7",
     "reputationScoreDelta": 1
+  },
+  {
+    "id": "job-mumk40k2-yxme",
+    "title": "Audit Escrow",
+    "client": "0x71C84167608922C0E63691C74B224E825a0b77A4",
+    "worker": "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
+    "amountUSDC": 100,
+    "criteria": "Must include full report",
+    "state": "REPUTATION_UPDATED",
+    "createdAt": 1790679115731,
+    "updatedAt": 1790679172532,
+    "fundedAt": 1790679137950,
+    "fundingTxHash": "0x73150eb7b85e5c9548e194146aa2d48e6b4f23f98eba07f92e21da5308182fd5",
+    "deliverable": {
+      "type": "code",
+      "content": "// Stub implementation missing parameter types and validations\nexport function transferEscrowFunds(recipient: any, amount: any) {\n  // TODO: validate inputs\n  console.log(\"Mock transfer\");\n  return \"0xdummy_placeholder\";\n}",
+      "notes": "Unfinished stub missing input validation and error handling.",
+      "submittedAt": 1790679161202
+    },
+    "verifierOutput": {
+      "jobId": "job-mumk40k2-yxme",
+      "pass": false,
+      "confidence": 0.97,
+      "reasoning": "The acceptance criterion required a full report, but the submitted deliverable consists solely of a code stub with no report content. Therefore the mandatory requirement is not satisfied.",
+      "evidenceHash": "c60db58527bbe721e1cb616894ea53b81468606aad1904d00a4afd89249dce38",
+      "model": "openai/gpt-oss-120b",
+      "timestamp": 1790679172523,
+      "criteriaBreakdown": [
+        {
+          "criterion": "Must include full report",
+          "status": "NOT_MET",
+          "evidence": "Submitted deliverable is a code stub lacking any report documentation."
+        }
+      ]
+    },
+    "deterministicResult": {
+      "accepted": true,
+      "decision": "REJECTED",
+      "reason": "Deliverable failed verification with confidence 0.97: The acceptance criterion required a full report, but the submitted deliverable consists solely of a code stub with no report content. Therefore the mandatory requirement is not satisfied.",
+      "validatedAt": 1790679172528
+    },
+    "settlementTxHash": "0x7c42eb7507ad9ed1d2ba94ae7c8a765107b27787052a65bb06f8c631c5b6b0d2",
+    "reputationTxHash": "0xc972b1959813c9be6adeb1eb829b47d48aecac1ff920ba84ada89fec6cb45bde",
+    "reputationScoreDelta": -1
   }
 ]

@@ -1,11 +1,18 @@
-import { Oxanium } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
-const oxanium = Oxanium({
+const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
 });
 
 const defaultUrl = process.env.NEXT_PUBLIC_VERCEL_URL
@@ -14,9 +21,9 @@ const defaultUrl = process.env.NEXT_PUBLIC_VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Veris — Milestone Escrow & On-Chain Delivery Reputation",
+  title: "Veris — Autonomous Milestone Escrow & On-Chain Delivery Reputation",
   description:
-    "Autonomous multi-agent milestone escrow with AI deliverable verification, deterministic settlement, and on-chain delivery reputation on Arc Testnet.",
+    "Institutional-grade autonomous multi-agent escrow on Arc Testnet (5042002) with AI verification calibration and deterministic on-chain delivery reputation.",
 };
 
 export default function RootLayout({
@@ -25,8 +32,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={oxanium.variable} suppressHydrationWarning>
-      <body className="bg-[#070A12] text-foreground font-sans antialiased min-h-screen">
+    <html
+      lang="en"
+      className={`${inter.variable} ${jetbrainsMono.variable} dark`}
+      suppressHydrationWarning
+    >
+      <body className="bg-[#05070E] text-[#F1F5F9] font-sans antialiased min-h-screen selection:bg-cyan-500/30 selection:text-cyan-200">
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -34,7 +45,13 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <Toaster position="top-right" richColors />
+          <Toaster
+            position="top-right"
+            richColors
+            toastOptions={{
+              className: "border border-cyan-500/30 bg-[#0B101E]/95 backdrop-blur-xl text-slate-100 font-sans shadow-2xl shadow-black/80",
+            }}
+          />
           {children}
         </ThemeProvider>
       </body>
