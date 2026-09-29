@@ -205,3 +205,29 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #94A3B8;
 }
+
+/* Constantly Flowing Marquee */
+@keyframes flow-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-flow-marquee {
+  display: flex;
+  width: max-content;
+  animation: flow-left 38s linear infinite;
+  will-change: transform;
+}
+
+.animate-flow-marquee:hover {
+  animation-play-state: paused;
+}
+
+.marquee-mask {
+  mask-image: linear-gradient(to right, transparent 0%, black 2.5%, black 97.5%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 2.5%, black 97.5%, transparent 100%);
+}

@@ -1,11 +1,20 @@
 [
   {
     "address": "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
-    "score": 0,
-    "totalJobs": 2,
-    "successCount": 1,
+    "score": 1,
+    "totalJobs": 3,
+    "successCount": 2,
     "failCount": 1,
     "history": [
+      {
+        "jobId": "job-001-arc-helper",
+        "worker": "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
+        "scoreDelta": 1,
+        "evidenceHash": "0xaf66e0ffc4a2d2387963cf04e18364f137fd9bfd215c27b0e6015e42228c8832",
+        "reason": "Successful verified delivery: All acceptance criteria are satisfied: the function is exported with correct signature, validates recipient address usin...",
+        "timestamp": 1790696581790,
+        "recorded": true
+      },
       {
         "jobId": "job-mumk40k2-yxme",
         "worker": "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",

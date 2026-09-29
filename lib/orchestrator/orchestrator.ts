@@ -134,8 +134,8 @@ export async function submitDeliverable(params: SubmitDeliverableParams): Promis
 export async function verifyAndSettle(jobId: string): Promise<EscrowJob> {
   const job = getJobById(jobId);
   if (!job) throw new Error(`Job not found: ${jobId}`);
-  if (job.state !== "DELIVERABLE_SUBMITTED") {
-    throw new Error(`Invalid state transition: Job must be in 'DELIVERABLE_SUBMITTED' to verify. Current state: '${job.state}'.`);
+  if (job.state !== "DELIVERABLE_SUBMITTED" && job.state !== "VERIFYING") {
+    throw new Error(`Invalid state transition: Job must be in 'DELIVERABLE_SUBMITTED' or 'VERIFYING' to verify. Current state: '${job.state}'.`);
   }
   if (!job.deliverable) {
     throw new Error("Cannot verify: deliverable content is missing");

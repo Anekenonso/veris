@@ -6,17 +6,62 @@
     "worker": "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
     "amountUSDC": 250,
     "criteria": "1. Export an async function 'transferEscrowFunds(recipient: string, amountUSDC: number, client: CircleClient): Promise<string>'\n2. Validates recipient address is a valid 42-char hex string starting with 0x.\n3. Validates amountUSDC > 0.\n4. Includes error handling returning meaningful Error messages.\n5. Written in TypeScript with explicit types (no 'any').",
-    "state": "DELIVERABLE_SUBMITTED",
+    "state": "REPUTATION_UPDATED",
     "createdAt": 1790674075752,
     "fundedAt": 1790674175752,
     "fundingTxHash": "0x3f9821aa90be4c0b48f98df3c9b7405bead48480dc2735749a0c79e63e18a221",
-    "updatedAt": 1790692936755,
+    "updatedAt": 1790696581792,
     "deliverable": {
       "type": "code",
       "content": "import { CircleClient } from \"@circle-fin/developer-controlled-wallets\";\n\nconst ETH_ADDRESS_REGEX = /^0x[a-fA-F0-9]{40}$/;\n\nexport async function transferEscrowFunds(\n  recipient: string,\n  amountUSDC: number,\n  client: CircleClient\n): Promise<string> {\n  if (!ETH_ADDRESS_REGEX.test(recipient)) {\n    throw new Error(`Invalid recipient address: \"${recipient}\". Must be 42-char hex.`);\n  }\n  if (typeof amountUSDC !== \"number\" || isNaN(amountUSDC) || amountUSDC <= 0) {\n    throw new Error(`Invalid amount: \"${amountUSDC}\". Must be positive.`);\n  }\n\n  try {\n    const tx = await client.createTransaction({\n      destinationAddress: recipient,\n      amounts: [amountUSDC.toFixed(6)],\n      fee: { type: \"level\", config: { feeLevel: \"MEDIUM\" } }\n    });\n    return tx.data.id;\n  } catch (err: unknown) {\n    const msg = err instanceof Error ? err.message : \"Transaction failed\";\n    throw new Error(`Escrow transfer failed: ${msg}`);\n  }\n}",
       "notes": "Fully typed implementation meeting all criteria with regex checks.",
       "submittedAt": 1790692936755
-    }
+    },
+    "verifierOutput": {
+      "jobId": "job-001-arc-helper",
+      "pass": true,
+      "confidence": 0.96,
+      "reasoning": "All acceptance criteria are satisfied: the function is exported with correct signature, validates recipient address using a 42‑char hex regex, checks amountUSDC is positive, includes explicit error handling with descriptive messages, and is fully typed in TypeScript without any usage of the 'any' type.",
+      "evidenceHash": "af66e0ffc4a2d2387963cf04e18364f137fd9bfd215c27b0e6015e42228c8832",
+      "model": "openai/gpt-oss-120b",
+      "timestamp": 1790696581756,
+      "criteriaBreakdown": [
+        {
+          "criterion": "Export an async function 'transferEscrowFunds(recipient: string, amountUSDC: number, client: CircleClient): Promise<string>'",
+          "status": "MET",
+          "evidence": "export async function transferEscrowFunds(recipient: string, amountUSDC: number, client: CircleClient): Promise<string>"
+        },
+        {
+          "criterion": "Validates recipient address is a valid 42-char hex string starting with 0x",
+          "status": "MET",
+          "evidence": "const ETH_ADDRESS_REGEX = /^0x[a-fA-F0-9]{40}$/; if (!ETH_ADDRESS_REGEX.test(recipient)) { throw new Error(...); }"
+        },
+        {
+          "criterion": "Validates amountUSDC > 0",
+          "status": "MET",
+          "evidence": "if (typeof amountUSDC !== \"number\" || isNaN(amountUSDC) || amountUSDC <= 0) { throw new Error(...); }"
+        },
+        {
+          "criterion": "Includes error handling returning meaningful Error messages",
+          "status": "MET",
+          "evidence": "try { ... } catch (err: unknown) { const msg = err instanceof Error ? err.message : \"Transaction failed\"; throw new Error(`Escrow transfer failed: ${msg}`); }"
+        },
+        {
+          "criterion": "Written in TypeScript with explicit types (no 'any')",
+          "status": "MET",
+          "evidence": "All parameters and return types are explicitly typed; catch uses err: unknown instead of any."
+        }
+      ]
+    },
+    "deterministicResult": {
+      "accepted": true,
+      "decision": "APPROVED",
+      "reason": "Deliverable passed verification with confidence 0.96",
+      "validatedAt": 1790696581786
+    },
+    "settlementTxHash": "0xd735137898155c9d9380ef1d9d39517f3b08b98c52bb2f346e77c5d644fb4686",
+    "reputationTxHash": "0x983cfd8ddb3cf4352d065d07773ef46067c894763e8ae1a4e75535fa33b69197",
+    "reputationScoreDelta": 1
   },
   {
     "id": "job-002-blog-launch",

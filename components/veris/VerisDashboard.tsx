@@ -410,14 +410,14 @@ export function transferEscrowFunds(recipient: any, amount: any) {
 
   return (
     <div className="min-h-screen text-[#0F172A] flex flex-col font-sans">
-      {/* Top Navbar */}
+      {/* Top Navbar - Full Screen Width */}
       <header className="bg-white/95 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-30 shadow-2xs">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-4 sm:gap-6">
+        <div className="w-full px-4 sm:px-8 lg:px-10 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-4 sm:gap-8">
             {/* Logo */}
             <div className="flex items-center gap-2 sm:gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-teal-600 flex items-center justify-center text-white shadow-xs shrink-0">
-                <ShieldCheck className="w-4.5 h-4.5" />
+              <div className="w-8.5 h-8.5 rounded-xl bg-teal-600 flex items-center justify-center text-white shadow-xs shrink-0">
+                <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
                 <span className="font-sans font-extrabold text-base sm:text-lg text-slate-900 tracking-tight block leading-tight">
@@ -433,7 +433,7 @@ export function transferEscrowFunds(recipient: any, amount: any) {
             <nav className="hidden md:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/60 h-10">
               <button
                 onClick={() => setActiveTab("wizard")}
-                className={`h-8 px-3.5 rounded-lg text-xs font-semibold tracking-[-0.01em] transition cursor-pointer flex items-center ${
+                className={`h-8 px-4 rounded-lg text-xs font-semibold tracking-[-0.01em] transition cursor-pointer flex items-center ${
                   activeTab === "wizard"
                     ? "bg-white text-teal-700 shadow-2xs"
                     : "text-slate-600 hover:text-slate-900"
@@ -443,7 +443,7 @@ export function transferEscrowFunds(recipient: any, amount: any) {
               </button>
               <button
                 onClick={() => setActiveTab("contractors")}
-                className={`h-8 px-3.5 rounded-lg text-xs font-semibold tracking-[-0.01em] transition cursor-pointer flex items-center ${
+                className={`h-8 px-4 rounded-lg text-xs font-semibold tracking-[-0.01em] transition cursor-pointer flex items-center ${
                   activeTab === "contractors"
                     ? "bg-white text-teal-700 shadow-2xs"
                     : "text-slate-600 hover:text-slate-900"
@@ -453,7 +453,7 @@ export function transferEscrowFunds(recipient: any, amount: any) {
               </button>
               <button
                 onClick={() => setActiveTab("audit")}
-                className={`h-8 px-3.5 rounded-lg text-xs font-semibold tracking-[-0.01em] transition cursor-pointer flex items-center ${
+                className={`h-8 px-4 rounded-lg text-xs font-semibold tracking-[-0.01em] transition cursor-pointer flex items-center ${
                   activeTab === "audit"
                     ? "bg-white text-teal-700 shadow-2xs"
                     : "text-slate-600 hover:text-slate-900"
@@ -521,44 +521,72 @@ export function transferEscrowFunds(recipient: any, amount: any) {
         </div>
       </header>
 
-      {/* Main Container */}
-      <main className="flex-1 max-w-5xl mx-auto w-full p-3.5 sm:p-6 space-y-4 sm:space-y-6">
+      {/* Main Container - Full Screen Width */}
+      <main className="flex-1 w-full px-4 sm:px-8 lg:px-10 py-4 sm:py-6 space-y-4 sm:space-y-6">
         {activeTab === "wizard" && (
           <div className="space-y-4 sm:space-y-6">
-            {/* Milestone Selector Bar */}
-            <div className="premium-card p-3 sm:px-4 sm:py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 w-full sm:w-auto min-w-0">
-                <span className="text-xs font-semibold text-slate-500 font-sans shrink-0">Active Milestone:</span>
-                
-                {/* Quick-Switch Milestone Chips (Scrollbar hidden) */}
-                <div className="flex items-center gap-2 overflow-x-auto pb-0.5 sm:pb-0 w-full sm:w-auto max-w-full [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden pr-2">
-                  {jobs.map((job) => (
-                    <button
-                      key={job.id}
-                      onClick={() => setSelectedJobId(job.id)}
-                      className={`h-8 px-3 rounded-lg text-xs transition cursor-pointer flex items-center gap-2 shrink-0 ${
-                        selectedJobId === job.id
-                          ? "bg-slate-900 text-white shadow-xs font-semibold"
-                          : "bg-slate-100/90 hover:bg-slate-200/90 text-slate-700 font-medium border border-slate-200/50"
-                      }`}
-                    >
-                      <span
-                        className={`w-2 h-2 rounded-full shrink-0 ${
-                          job.state === "REPUTATION_UPDATED" || job.state === "RELEASED"
-                            ? "bg-emerald-400"
-                            : job.state === "FUNDED"
-                            ? "bg-blue-400"
-                            : "bg-amber-400"
+            {/* Constantly Flowing Active Milestone Stream Bar */}
+            <div className="premium-card p-3 sm:px-4 sm:py-2.5 flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4 overflow-hidden">
+              <div className="flex items-center gap-2.5 shrink-0">
+                <div className="flex items-center gap-1.5">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
+                  </span>
+                  <span className="text-xs font-bold text-slate-800 font-sans tracking-tight shrink-0">
+                    Active Milestone:
+                  </span>
+                </div>
+                <span className="hidden sm:inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono font-semibold bg-slate-100 text-slate-500 border border-slate-200/60 uppercase tracking-wider">
+                  Live Stream
+                </span>
+              </div>
+
+              {/* Constantly Flowing Marquee Track (Hover to pause, Click to select) */}
+              <div
+                className="relative flex-1 overflow-hidden marquee-mask py-0.5 min-w-0"
+                title="Constantly flowing milestone stream — Hover to pause, click to select"
+              >
+                <div className="animate-flow-marquee flex items-center gap-2.5">
+                  {/* Duplicated list to enable infinite seamless loop */}
+                  {[...jobs, ...jobs].map((job, idx) => {
+                    const isSelected = selectedJobId === job.id;
+                    return (
+                      <button
+                        key={`${job.id}-${idx}`}
+                        onClick={() => setSelectedJobId(job.id)}
+                        className={`h-8 px-3 rounded-xl text-xs transition cursor-pointer flex items-center gap-2 shrink-0 ${
+                          isSelected
+                            ? "bg-slate-900 text-white shadow-xs font-semibold ring-2 ring-teal-500/40"
+                            : "bg-slate-100/90 hover:bg-slate-200/90 text-slate-700 font-medium border border-slate-200/60"
                         }`}
-                      />
-                      <span className="truncate max-w-[130px] sm:max-w-[190px]">{job.title}</span>
-                      <span className="font-mono text-[11px] opacity-80">${job.amountUSDC}</span>
-                    </button>
-                  ))}
+                      >
+                        <span
+                          className={`w-2 h-2 rounded-full shrink-0 ${
+                            job.state === "REPUTATION_UPDATED" || job.state === "RELEASED"
+                              ? "bg-emerald-400"
+                              : job.state === "FUNDED"
+                              ? "bg-blue-400"
+                              : "bg-amber-400"
+                          }`}
+                        />
+                        <span className="whitespace-nowrap font-medium">{job.title}</span>
+                        <span
+                          className={`font-mono text-[11px] px-1.5 py-0.5 rounded ${
+                            isSelected
+                              ? "bg-white/15 text-teal-200 font-semibold"
+                              : "bg-white/80 text-slate-600 font-medium border border-slate-200/60"
+                          }`}
+                        >
+                          ${job.amountUSDC} USDC
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
-              <div className="flex items-center justify-between sm:justify-end gap-2 shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-100">
+              <div className="flex items-center justify-between md:justify-end gap-2 shrink-0 border-t md:border-t-0 pt-2 md:pt-0 border-slate-100">
                 <span
                   className={`h-7 px-3 rounded-full text-[10px] sm:text-[11px] font-semibold font-mono uppercase tracking-wider flex items-center ${
                     activeJob?.state === "REPUTATION_UPDATED" || activeJob?.state === "RELEASED"
@@ -1069,36 +1097,85 @@ export function transferEscrowFunds(recipient: any, amount: any) {
 
                     {/* Live Telemetry Progress Terminal (Shown during active autonomous verification) */}
                     {(verifyingStage > 0 || (actionLoading && wizardStep === 3)) && (
-                      <div className="p-4 rounded-xl bg-slate-950 text-slate-100 font-mono text-xs border border-teal-500/30 space-y-3 shadow-md animate-in fade-in duration-300">
-                        <div className="flex items-center justify-between border-b border-slate-800 pb-2.5 text-[11px] text-teal-400">
-                          <div className="flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-teal-400 animate-ping" />
-                            <span className="font-bold uppercase tracking-wider">Veris Autonomous Verification Engine</span>
+                      <div className="p-4 sm:p-5 rounded-xl bg-gradient-to-br from-teal-50/50 via-white to-slate-50/70 border border-teal-200/90 space-y-3.5 shadow-xs relative overflow-hidden animate-in fade-in duration-300">
+                        {/* Top Accent Gradient Line */}
+                        <div className="absolute top-0 inset-x-0 h-0.5 bg-gradient-to-r from-teal-500 via-teal-400 to-emerald-500" />
+
+                        <div className="flex items-center justify-between border-b border-teal-100/90 pb-3">
+                          <div className="flex items-center gap-2.5">
+                            <span className="relative flex h-2.5 w-2.5">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75" />
+                              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-teal-600" />
+                            </span>
+                            <div className="flex items-center gap-2">
+                              <Cpu className="w-4 h-4 text-teal-700" />
+                              <span className="font-mono text-xs font-bold text-slate-900 tracking-wider uppercase">
+                                Veris Autonomous Verification Engine
+                              </span>
+                            </div>
                           </div>
-                          <span className="text-slate-400 font-sans text-xs">Phase {verifyingStage || 1} of 5</span>
+
+                          <div className="flex items-center gap-2">
+                            <span className="badge-sapphire px-2.5 py-0.5 rounded-full text-[10px] font-mono font-medium hidden sm:inline">
+                              Deterministic Pipeline
+                            </span>
+                            <span className="badge-teal px-2.5 py-0.5 rounded-full font-mono text-[11px] font-semibold">
+                              Phase {verifyingStage || 1} of 5
+                            </span>
+                          </div>
                         </div>
 
-                        <div className="space-y-1.5 pt-1">
-                          <div className={`flex items-center gap-2 ${verifyingStage >= 1 ? "text-slate-200" : "text-slate-600"}`}>
-                            <span className="text-teal-400 font-bold">{verifyingStage > 1 ? "✓" : "▶"}</span>
-                            <span>[01/05] Hashing deliverable payload with SHA-256 for non-repudiation...</span>
-                          </div>
-                          <div className={`flex items-center gap-2 ${verifyingStage >= 2 ? "text-slate-200" : "text-slate-600"}`}>
-                            <span className="text-teal-400 font-bold">{verifyingStage > 2 ? "✓" : verifyingStage === 2 ? "▶" : "·"}</span>
-                            <span>[02/05] Querying Groq gpt-oss-120b with zero-bias criteria audit prompt...</span>
-                          </div>
-                          <div className={`flex items-center gap-2 ${verifyingStage >= 3 ? "text-slate-200" : "text-slate-600"}`}>
-                            <span className="text-teal-400 font-bold">{verifyingStage > 3 ? "✓" : verifyingStage === 3 ? "▶" : "·"}</span>
-                            <span>[03/05] Checking confidence calibration against threshold (≥ 70% required)...</span>
-                          </div>
-                          <div className={`flex items-center gap-2 ${verifyingStage >= 4 ? "text-slate-200" : "text-slate-600"}`}>
-                            <span className="text-teal-400 font-bold">{verifyingStage > 4 ? "✓" : verifyingStage === 4 ? "▶" : "·"}</span>
-                            <span>[04/05] Executing deterministic Arc settlement & releasing ${activeJob.amountUSDC} USDC...</span>
-                          </div>
-                          <div className={`flex items-center gap-2 ${verifyingStage >= 5 ? "text-emerald-400 font-semibold" : "text-slate-600"}`}>
-                            <span className="text-emerald-400 font-bold">{verifyingStage >= 5 ? "✓" : "·"}</span>
-                            <span>[05/05] State finalized: ReputationRegistry record minted on Arc Testnet.</span>
-                          </div>
+                        <div className="space-y-1.5 pt-0.5">
+                          {[
+                            { num: "01", text: "Hashing deliverable payload with SHA-256 for non-repudiation..." },
+                            { num: "02", text: "Querying Groq gpt-oss-120b with zero-bias criteria audit prompt..." },
+                            { num: "03", text: "Checking confidence calibration against threshold (≥ 70% required)..." },
+                            { num: "04", text: `Executing deterministic Arc settlement & releasing $${activeJob.amountUSDC} USDC...` },
+                            { num: "05", text: "State finalized: ReputationRegistry record minted on Arc Testnet." },
+                          ].map((step, idx) => {
+                            const stepStage = idx + 1;
+                            const isDone = verifyingStage > stepStage || (verifyingStage === 5 && stepStage === 5);
+                            const isCurrent = verifyingStage === stepStage;
+
+                            return (
+                              <div
+                                key={step.num}
+                                className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-mono transition-all duration-200 ${
+                                  isCurrent
+                                    ? "bg-teal-50/90 border border-teal-300 text-teal-950 font-semibold shadow-2xs ring-1 ring-teal-400/20"
+                                    : isDone
+                                    ? "bg-slate-50/80 border border-slate-200/70 text-slate-800"
+                                    : "border border-transparent text-slate-400 opacity-60"
+                                }`}
+                              >
+                                <span
+                                  className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
+                                    isDone
+                                      ? "bg-teal-600 text-white"
+                                      : isCurrent
+                                      ? "bg-teal-100 text-teal-800 border border-teal-400 animate-pulse"
+                                      : "bg-slate-200 text-slate-500"
+                                  }`}
+                                >
+                                  {isDone ? "✓" : isCurrent ? "▶" : "·"}
+                                </span>
+                                <span className="truncate flex-1">
+                                  [{step.num}/05] {step.text}
+                                </span>
+                                {isCurrent && (
+                                  <span className="flex items-center gap-1 text-[10px] text-teal-700 font-sans font-medium shrink-0 animate-pulse">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-teal-500" />
+                                    Executing
+                                  </span>
+                                )}
+                                {isDone && (
+                                  <span className="text-[10px] text-teal-700 font-sans font-medium shrink-0">
+                                    Verified
+                                  </span>
+                                )}
+                              </div>
+                            );
+                          })}
                         </div>
                       </div>
                     )}
@@ -1268,47 +1345,126 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                             </div>
                           </div>
 
-                          {/* 1-Click Shortcut to Contractor Profile */}
-                          <div className="pt-1">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setActiveTab("contractors");
-                                setLookupAddress(activeJob.worker);
-                                fetchReputation(activeJob.worker);
-                              }}
-                              className="w-full py-2.5 px-4 rounded-xl border border-teal-200 bg-teal-50/70 hover:bg-teal-100/90 text-teal-900 text-xs font-semibold flex items-center justify-center gap-2 transition cursor-pointer"
-                            >
-                              <UserCheck className="w-4 h-4 text-teal-600" />
-                              <span>Inspect Contractor&apos;s On-Chain Reputation Profile ({activeJob.worker.slice(0, 6)}...{activeJob.worker.slice(-4)}) &rarr;</span>
-                            </button>
+                        {/* Veris Autonomous Verification Engine - Execution Record */}
+                        <div className="p-4 rounded-xl bg-gradient-to-br from-teal-50/40 via-white to-slate-50/60 border border-teal-200/90 space-y-2.5 text-xs">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <CheckCircle2 className="w-4 h-4 text-teal-600" />
+                              <span className="font-mono font-bold text-slate-900 uppercase tracking-wider text-[11px]">
+                                Veris Autonomous Verification Engine
+                              </span>
+                            </div>
+                            <span className="badge-teal px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold">
+                              All 5 Phases Executed
+                            </span>
+                          </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 font-mono text-[11px] text-slate-600">
+                            <div className="flex items-center gap-2 p-2 bg-white rounded-lg border border-slate-200/70">
+                              <span className="text-teal-600 font-bold">✓</span>
+                              <span>[01/05] SHA-256 Non-Repudiation Hash</span>
+                            </div>
+                            <div className="flex items-center gap-2 p-2 bg-white rounded-lg border border-slate-200/70">
+                              <span className="text-teal-600 font-bold">✓</span>
+                              <span>[02/05] Groq gpt-oss-120b Criteria Audit</span>
+                            </div>
+                            <div className="flex items-center gap-2 p-2 bg-white rounded-lg border border-slate-200/70">
+                              <span className="text-teal-600 font-bold">✓</span>
+                              <span>[03/05] Calibration Threshold Evaluated</span>
+                            </div>
+                            <div className="flex items-center gap-2 p-2 bg-white rounded-lg border border-slate-200/70">
+                              <span className="text-teal-600 font-bold">✓</span>
+                              <span>[04/05] Deterministic Settlement Executed</span>
+                            </div>
+                            <div className="sm:col-span-2 flex items-center gap-2 p-2 bg-white rounded-lg border border-slate-200/70">
+                              <span className="text-teal-600 font-bold">✓</span>
+                              <span>[05/05] ReputationRegistry Minted on Arc</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ) : activeJob.state === "DELIVERABLE_SUBMITTED" ? (
-                      <div className="p-8 text-center space-y-4 rounded-xl bg-teal-50/40 border border-teal-200">
-                        <Cpu className="w-8 h-8 text-teal-600 mx-auto" />
-                        <div>
-                          <h3 className="text-sm font-bold text-slate-900">
-                            Deliverable Ready for Autonomous Verification
-                          </h3>
-                          <p className="text-xs text-slate-500 mt-1 max-w-md mx-auto leading-relaxed">
-                            The Verifier Agent will evaluate the code against the criteria, compute a cryptographic evidence hash, and execute payout if approved.
-                          </p>
+
+                        {/* 1-Click Shortcut to Contractor Profile */}
+                        <div className="pt-1">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setActiveTab("contractors");
+                              setLookupAddress(activeJob.worker);
+                              fetchReputation(activeJob.worker);
+                            }}
+                            className="w-full py-2.5 px-4 rounded-xl border border-teal-200 bg-teal-50/70 hover:bg-teal-100/90 text-teal-900 text-xs font-semibold flex items-center justify-center gap-2 transition cursor-pointer"
+                          >
+                            <UserCheck className="w-4 h-4 text-teal-600" />
+                            <span>Inspect Contractor&apos;s On-Chain Reputation Profile ({activeJob.worker.slice(0, 6)}...{activeJob.worker.slice(-4)}) &rarr;</span>
+                          </button>
                         </div>
+                      </div>
+                    </div>
+                  ) : (activeJob.state === "DELIVERABLE_SUBMITTED" || activeJob.state === "VERIFYING") ? (
+                    <div className="p-6 sm:p-7 rounded-xl bg-gradient-to-br from-teal-50/40 via-white to-slate-50/60 border border-teal-200/90 space-y-5">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-teal-100/80">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center shrink-0 border border-teal-200/80 shadow-2xs">
+                            <Cpu className="w-5 h-5" />
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <h3 className="text-sm font-bold text-slate-900 font-serif tracking-tight">
+                                Veris Autonomous Verification Engine
+                              </h3>
+                              <span className="badge-teal px-2 py-0.5 rounded-full font-mono text-[10px] font-semibold">
+                                Ready to Audit
+                              </span>
+                            </div>
+                            <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
+                              Contractor deliverable has been submitted and queued for zero-bias AI audit and deterministic Arc settlement.
+                            </p>
+                          </div>
+                        </div>
+
                         <button
                           onClick={() => handleVerifyAndSettle(activeJob.id)}
                           disabled={actionLoading}
-                          className="px-6 py-3 btn-accent text-xs shadow-xs transition cursor-pointer disabled:opacity-50"
+                          className="px-5 py-3 btn-accent text-xs shadow-xs transition cursor-pointer disabled:opacity-50 shrink-0 flex items-center justify-center gap-2 font-semibold tracking-[-0.01em]"
                         >
-                          {actionLoading ? "Evaluating Deliverable..." : "⚡ Run Verification & Settle Escrow"}
+                          <Sparkles className="w-4 h-4" />
+                          <span>{actionLoading ? "Evaluating Deliverable..." : "⚡ Run Verification & Settle Escrow"}</span>
                         </button>
                       </div>
-                    ) : (
-                      <div className="p-8 text-center text-xs text-slate-500 border border-dashed border-slate-200 rounded-xl">
-                        Awaiting deliverable submission in Step 2 to perform verification.
+
+                      {/* Pipeline Preview */}
+                      <div className="space-y-2">
+                        <span className="text-[11px] font-mono uppercase font-bold text-slate-600 tracking-wider block">
+                          Deterministic Execution Pipeline (5 Phases):
+                        </span>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
+                          <div className="p-2.5 rounded-lg bg-white border border-slate-200/80 flex items-center gap-2 text-slate-700 shadow-2xs">
+                            <span className="w-4 h-4 rounded-full bg-teal-100 text-teal-800 text-[10px] font-bold flex items-center justify-center">1</span>
+                            <span>SHA-256 Non-Repudiation Hash</span>
+                          </div>
+                          <div className="p-2.5 rounded-lg bg-white border border-slate-200/80 flex items-center gap-2 text-slate-700 shadow-2xs">
+                            <span className="w-4 h-4 rounded-full bg-teal-100 text-teal-800 text-[10px] font-bold flex items-center justify-center">2</span>
+                            <span>Groq gpt-oss-120b Criteria Audit</span>
+                          </div>
+                          <div className="p-2.5 rounded-lg bg-white border border-slate-200/80 flex items-center gap-2 text-slate-700 shadow-2xs">
+                            <span className="w-4 h-4 rounded-full bg-teal-100 text-teal-800 text-[10px] font-bold flex items-center justify-center">3</span>
+                            <span>Confidence Calibration (&ge; 70%)</span>
+                          </div>
+                          <div className="p-2.5 rounded-lg bg-white border border-slate-200/80 flex items-center gap-2 text-slate-700 shadow-2xs">
+                            <span className="w-4 h-4 rounded-full bg-teal-100 text-teal-800 text-[10px] font-bold flex items-center justify-center">4</span>
+                            <span>Arc Settlement (${activeJob.amountUSDC} USDC)</span>
+                          </div>
+                          <div className="sm:col-span-2 p-2.5 rounded-lg bg-white border border-slate-200/80 flex items-center gap-2 text-slate-700 shadow-2xs">
+                            <span className="w-4 h-4 rounded-full bg-teal-100 text-teal-800 text-[10px] font-bold flex items-center justify-center">5</span>
+                            <span>ReputationRegistry On-Chain Minting</span>
+                          </div>
+                        </div>
                       </div>
-                    )}
+                    </div>
+                  ) : (
+                    <div className="p-8 text-center text-xs text-slate-500 border border-dashed border-slate-200 rounded-xl">
+                      Awaiting deliverable submission in Step 2 to perform verification.
+                    </div>
+                  )}
                   </div>
                 )}
               </>
@@ -1735,6 +1891,162 @@ export function transferEscrowFunds(recipient: any, amount: any) {
           </div>
         )}
       </main>
+
+      {/* Veris Protocol Footer */}
+      <footer className="w-full border-t border-slate-200/80 bg-white/80 backdrop-blur-md mt-16 sm:mt-20">
+        <div className="w-full px-4 sm:px-8 lg:px-10 py-12 sm:py-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 pb-10 border-b border-slate-200/70">
+            {/* Col 1: Brand & Mission */}
+            <div className="space-y-3.5">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8.5 h-8.5 rounded-xl bg-teal-600 flex items-center justify-center text-white shadow-xs shrink-0">
+                  <ShieldCheck className="w-5 h-5" />
+                </div>
+                <div>
+                  <span className="font-sans font-extrabold text-base text-slate-900 tracking-tight block leading-tight">
+                    Veris
+                  </span>
+                  <span className="text-[10px] text-teal-800/90 font-mono uppercase tracking-[0.14em] font-semibold block">
+                    Autonomous Milestone Escrow
+                  </span>
+                </div>
+              </div>
+              <p className="text-xs text-slate-500 leading-relaxed max-w-sm">
+                Next-generation programmatic milestone escrow with deterministic AI evaluation, native USDC gas settlement, and on-chain contractor reputation on Arc Testnet.
+              </p>
+              <div className="flex items-center gap-2 pt-1">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600" />
+                </span>
+                <span className="text-[11px] font-mono font-medium text-slate-600">
+                  Arc Testnet · Chain 5042002 Operational
+                </span>
+              </div>
+            </div>
+
+            {/* Col 2: Protocol Architecture */}
+            <div className="space-y-3">
+              <h4 className="text-xs font-mono uppercase font-bold text-slate-900 tracking-wider">
+                Protocol Architecture
+              </h4>
+              <ul className="space-y-2 text-xs text-slate-600">
+                <li className="flex items-center gap-2">
+                  <Coins className="w-3.5 h-3.5 text-teal-600 shrink-0" />
+                  <span>Arc USDC Gas Abstraction</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Cpu className="w-3.5 h-3.5 text-teal-600 shrink-0" />
+                  <span>Groq gpt-oss-120b Autonomous Verifier</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Layers className="w-3.5 h-3.5 text-teal-600 shrink-0" />
+                  <span>Deterministic SHA-256 Non-Repudiation</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Award className="w-3.5 h-3.5 text-teal-600 shrink-0" />
+                  <span>ReputationRegistry.sol On-Chain Minting</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Col 3: Quick Navigation */}
+            <div className="space-y-3">
+              <h4 className="text-xs font-mono uppercase font-bold text-slate-900 tracking-wider">
+                Platform Workflows
+              </h4>
+              <ul className="space-y-2 text-xs">
+                <li>
+                  <button
+                    onClick={() => {
+                      setActiveTab("wizard");
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                    className="text-slate-600 hover:text-teal-700 transition flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <span>&rarr;</span>
+                    <span>Milestone Escrow Wizard</span>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => {
+                      setActiveTab("contractors");
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                    className="text-slate-600 hover:text-teal-700 transition flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <span>&rarr;</span>
+                    <span>Contractor Delivery Directory</span>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => {
+                      setActiveTab("audit");
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                    className="text-slate-600 hover:text-teal-700 transition flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <span>&rarr;</span>
+                    <span>Immutable Audit Ledger ({auditLogs.length})</span>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => setShowCreateModal(true)}
+                    className="text-teal-700 font-semibold hover:text-teal-900 transition flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <span>+</span>
+                    <span>Create New Milestone</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            {/* Col 4: On-Chain Security & Finality */}
+            <div className="space-y-3">
+              <h4 className="text-xs font-mono uppercase font-bold text-slate-900 tracking-wider">
+                Settlement Security
+              </h4>
+              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2 text-xs">
+                <div className="flex items-center justify-between text-[11px] text-slate-500 font-mono">
+                  <span>Confidence Threshold</span>
+                  <span className="font-bold text-slate-900">&ge; 70%</span>
+                </div>
+                <div className="flex items-center justify-between text-[11px] text-slate-500 font-mono">
+                  <span>Arc Settlement Speed</span>
+                  <span className="font-bold text-emerald-700">&lt; 1 Second</span>
+                </div>
+                <div className="flex items-center justify-between text-[11px] text-slate-500 font-mono">
+                  <span>Audit Trail</span>
+                  <span className="font-bold text-slate-900">Cryptographic SHA-256</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Bar */}
+          <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <div className="flex items-center gap-2">
+              <span className="font-medium text-slate-700">Veris Protocol</span>
+              <span>·</span>
+              <span>Autonomous Milestone Escrow &amp; Delivery Reputation</span>
+            </div>
+            <div className="flex items-center gap-4 text-[11px] font-mono">
+              <span className="text-slate-400">Arc Testnet v1.0</span>
+              <span>·</span>
+              <button
+                type="button"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                className="text-teal-700 hover:text-teal-900 font-semibold cursor-pointer transition"
+              >
+                Back to Top &uarr;
+              </button>
+            </div>
+          </div>
+        </div>
+      </footer>
 
       {/* Create Milestone Modal */}
       {showCreateModal && (
