@@ -67,7 +67,7 @@ export function calculateEvidenceHash(criteria: string, deliverableContent: stri
  */
 export async function evaluateDeliverable(
   submission: DeliverableSubmission,
-  model = "gpt-4o"
+  model = process.env.OPENAI_MODEL || "llama-3.3-70b-versatile"
 ): Promise<VerifierOutput> {
   const evidenceHash = calculateEvidenceHash(
     submission.criteria,

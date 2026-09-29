@@ -27,7 +27,13 @@ if (!apiKey) {
   process.exit(1);
 }
 
-const openai = new OpenAI({ apiKey });
+const baseURL = process.env.OPENAI_BASE_URL;
+const clientConfig = { apiKey };
+if (baseURL) {
+  clientConfig.baseURL = baseURL;
+}
+
+const openai = new OpenAI(clientConfig);
 
 function calculateEvidenceHash(criteria, deliverableContent) {
   return crypto
@@ -72,7 +78,7 @@ function validateVerifierDecision(output, expectedEvidenceHash, minConfidenceThr
   };
 }
 
-async function evaluateDeliverable(submission, model = "gpt-4o") {
+async function evaluateDeliverable(submission, model = process.env.OPENAI_MODEL || "gpt-4o") {
   const evidenceHash = calculateEvidenceHash(submission.criteria, submission.deliverableContent);
   const systemPrompt = `You are Veris Verifier Agent, an impartial evaluator for milestone-based deliverable escrow.
 Evaluate whether the submitted deliverable strictly satisfies the acceptance criteria agreed upon between client and contractor.
@@ -110,27 +116,57 @@ ${submission.criteria}
 --- SUBMITTED DELIVERABLE ---
 ${submission.deliverableContent}
 
-${submission.notes ? `--- CONTRACTOR NOTES ---\n${submission.notes}` : ""}`;
+${submission.notes ? `--- CONTRACTOR NOTES ---\n${submission.notes}` : ""}
 
-  const response = await openai.chat.completions.create({
-    model,
-    messages: [
-      { role: "system", content: systemPrompt },
-      { role: "user", content: userPrompt },
-    ],
-    response_format: { type: "json_object" },
-    temperature: 0.1,
-  });
+Please evaluate now and output your response in JSON format.`;
 
-  const content = response.choices[0]?.message?.content;
-  const parsed = JSON.parse(content);
+  let content;
+  let modelUsed = model;
+
+  try {
+    const response = await openai.chat.completions.create({
+      model,
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPrompt },
+      ],
+      response_format: { type: "json_object" },
+      temperature: 0.1,
+    });
+    content = response.choices[0]?.message?.content;
+    modelUsed = response.model || model;
+  } catch (err) {
+    // If backend's strict JSON mode triggers 400, retry without response_format
+    if (err.status === 400 || (err.message && err.message.includes("generate JSON"))) {
+      const retry = await openai.chat.completions.create({
+        model,
+        messages: [
+          { role: "system", content: systemPrompt + "\nOutput raw JSON only without markdown formatting." },
+          { role: "user", content: userPrompt },
+        ],
+        temperature: 0.1,
+      });
+      content = retry.choices[0]?.message?.content;
+      modelUsed = retry.model || model;
+    } else {
+      throw err;
+    }
+  }
+
+  if (!content) {
+    throw new Error("Verifier agent returned empty response");
+  }
+
+  // Clean markdown code blocks if returned
+  const cleaned = content.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim();
+  const parsed = JSON.parse(cleaned);
   const output = {
     jobId: submission.jobId,
     pass: Boolean(parsed.pass),
     confidence: Number(parsed.confidence) || 0,
     reasoning: String(parsed.reasoning || ""),
     evidenceHash,
-    model: response.model || model,
+    model: modelUsed,
     timestamp: Date.now(),
     criteriaBreakdown: parsed.criteriaBreakdown,
   };
