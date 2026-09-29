@@ -522,7 +522,7 @@ export function transferEscrowFunds(recipient: any, amount: any) {
       </header>
 
       {/* Main Container - Full Screen Width */}
-      <main className="flex-1 w-full px-4 sm:px-8 lg:px-10 py-4 sm:py-6 space-y-4 sm:space-y-6">
+      <main className="flex-1 w-full px-4 sm:px-8 lg:px-10 pt-4 sm:pt-6 pb-20 sm:pb-32 space-y-4 sm:space-y-6 min-h-[calc(100vh-140px)]">
         {activeTab === "wizard" && (
           <div className="space-y-4 sm:space-y-6">
             {/* Constantly Flowing Active Milestone Stream Bar */}
@@ -1893,28 +1893,23 @@ export function transferEscrowFunds(recipient: any, amount: any) {
       </main>
 
       {/* Veris Protocol Footer */}
-      <footer className="w-full border-t border-slate-200/80 bg-white/80 backdrop-blur-md mt-16 sm:mt-20">
-        <div className="w-full px-4 sm:px-8 lg:px-10 py-12 sm:py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 pb-10 border-b border-slate-200/70">
+      <footer className="w-full border-t border-slate-200/80 bg-white/80 backdrop-blur-md mt-auto">
+        <div className="w-full px-4 sm:px-8 lg:px-10 py-10 sm:py-14">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 pb-8 border-b border-slate-200/70 items-start">
             {/* Col 1: Brand & Mission */}
             <div className="space-y-3.5">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8.5 h-8.5 rounded-xl bg-teal-600 flex items-center justify-center text-white shadow-xs shrink-0">
-                  <ShieldCheck className="w-5 h-5" />
+              <div className="h-6 flex items-center gap-2">
+                <div className="w-5 h-5 rounded-md bg-teal-600 flex items-center justify-center text-white shrink-0 shadow-2xs">
+                  <ShieldCheck className="w-3.5 h-3.5" />
                 </div>
-                <div>
-                  <span className="font-sans font-extrabold text-base text-slate-900 tracking-tight block leading-tight">
-                    Veris
-                  </span>
-                  <span className="text-[10px] text-teal-800/90 font-mono uppercase tracking-[0.14em] font-semibold block">
-                    Autonomous Milestone Escrow
-                  </span>
-                </div>
+                <h4 className="text-xs font-mono uppercase font-bold text-slate-900 tracking-wider">
+                  Veris Protocol
+                </h4>
               </div>
-              <p className="text-xs text-slate-500 leading-relaxed max-w-sm">
-                Next-generation programmatic milestone escrow with deterministic AI evaluation, native USDC gas settlement, and on-chain contractor reputation on Arc Testnet.
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Autonomous programmatic milestone escrow with deterministic AI evaluation, native USDC gas settlement, and on-chain contractor reputation on Arc Testnet.
               </p>
-              <div className="flex items-center gap-2 pt-1">
+              <div className="flex items-center gap-2 pt-0.5">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600" />
@@ -1926,35 +1921,41 @@ export function transferEscrowFunds(recipient: any, amount: any) {
             </div>
 
             {/* Col 2: Protocol Architecture */}
-            <div className="space-y-3">
-              <h4 className="text-xs font-mono uppercase font-bold text-slate-900 tracking-wider">
-                Protocol Architecture
-              </h4>
+            <div className="space-y-3.5">
+              <div className="h-6 flex items-center gap-2">
+                <Cpu className="w-4 h-4 text-teal-600 shrink-0" />
+                <h4 className="text-xs font-mono uppercase font-bold text-slate-900 tracking-wider">
+                  Architecture
+                </h4>
+              </div>
               <ul className="space-y-2 text-xs text-slate-600">
                 <li className="flex items-center gap-2">
-                  <Coins className="w-3.5 h-3.5 text-teal-600 shrink-0" />
+                  <span className="text-teal-600 font-mono text-[11px] font-bold">01</span>
                   <span>Arc USDC Gas Abstraction</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Cpu className="w-3.5 h-3.5 text-teal-600 shrink-0" />
-                  <span>Groq gpt-oss-120b Autonomous Verifier</span>
+                  <span className="text-teal-600 font-mono text-[11px] font-bold">02</span>
+                  <span>Groq gpt-oss-120b Verifier</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Layers className="w-3.5 h-3.5 text-teal-600 shrink-0" />
-                  <span>Deterministic SHA-256 Non-Repudiation</span>
+                  <span className="text-teal-600 font-mono text-[11px] font-bold">03</span>
+                  <span>Deterministic SHA-256 Hash</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Award className="w-3.5 h-3.5 text-teal-600 shrink-0" />
-                  <span>ReputationRegistry.sol On-Chain Minting</span>
+                  <span className="text-teal-600 font-mono text-[11px] font-bold">04</span>
+                  <span>ReputationRegistry.sol Minting</span>
                 </li>
               </ul>
             </div>
 
             {/* Col 3: Quick Navigation */}
-            <div className="space-y-3">
-              <h4 className="text-xs font-mono uppercase font-bold text-slate-900 tracking-wider">
-                Platform Workflows
-              </h4>
+            <div className="space-y-3.5">
+              <div className="h-6 flex items-center gap-2">
+                <Layers className="w-4 h-4 text-teal-600 shrink-0" />
+                <h4 className="text-xs font-mono uppercase font-bold text-slate-900 tracking-wider">
+                  Workflows
+                </h4>
+              </div>
               <ul className="space-y-2 text-xs">
                 <li>
                   <button
@@ -1964,7 +1965,7 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                     }}
                     className="text-slate-600 hover:text-teal-700 transition flex items-center gap-1.5 cursor-pointer"
                   >
-                    <span>&rarr;</span>
+                    <span className="text-slate-400">&rarr;</span>
                     <span>Milestone Escrow Wizard</span>
                   </button>
                 </li>
@@ -1976,8 +1977,8 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                     }}
                     className="text-slate-600 hover:text-teal-700 transition flex items-center gap-1.5 cursor-pointer"
                   >
-                    <span>&rarr;</span>
-                    <span>Contractor Delivery Directory</span>
+                    <span className="text-slate-400">&rarr;</span>
+                    <span>Contractor Directory</span>
                   </button>
                 </li>
                 <li>
@@ -1988,8 +1989,8 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                     }}
                     className="text-slate-600 hover:text-teal-700 transition flex items-center gap-1.5 cursor-pointer"
                   >
-                    <span>&rarr;</span>
-                    <span>Immutable Audit Ledger ({auditLogs.length})</span>
+                    <span className="text-slate-400">&rarr;</span>
+                    <span>Audit Ledger ({auditLogs.length})</span>
                   </button>
                 </li>
                 <li>
@@ -2005,24 +2006,31 @@ export function transferEscrowFunds(recipient: any, amount: any) {
             </div>
 
             {/* Col 4: On-Chain Security & Finality */}
-            <div className="space-y-3">
-              <h4 className="text-xs font-mono uppercase font-bold text-slate-900 tracking-wider">
-                Settlement Security
-              </h4>
-              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2 text-xs">
-                <div className="flex items-center justify-between text-[11px] text-slate-500 font-mono">
-                  <span>Confidence Threshold</span>
-                  <span className="font-bold text-slate-900">&ge; 70%</span>
-                </div>
-                <div className="flex items-center justify-between text-[11px] text-slate-500 font-mono">
-                  <span>Arc Settlement Speed</span>
-                  <span className="font-bold text-emerald-700">&lt; 1 Second</span>
-                </div>
-                <div className="flex items-center justify-between text-[11px] text-slate-500 font-mono">
-                  <span>Audit Trail</span>
-                  <span className="font-bold text-slate-900">Cryptographic SHA-256</span>
-                </div>
+            <div className="space-y-3.5">
+              <div className="h-6 flex items-center gap-2">
+                <Award className="w-4 h-4 text-teal-600 shrink-0" />
+                <h4 className="text-xs font-mono uppercase font-bold text-slate-900 tracking-wider">
+                  Settlement Security
+                </h4>
               </div>
+              <ul className="space-y-2 text-xs text-slate-600">
+                <li className="flex items-center justify-between">
+                  <span className="text-slate-500">Confidence Gate:</span>
+                  <span className="font-mono font-bold text-slate-900 bg-slate-100 px-1.5 py-0.5 rounded text-[11px]">&ge; 70% Required</span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span className="text-slate-500">Settlement Speed:</span>
+                  <span className="font-mono font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded text-[11px]">&lt; 1 Second</span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span className="text-slate-500">Audit Trail:</span>
+                  <span className="font-mono font-bold text-slate-900 bg-slate-100 px-1.5 py-0.5 rounded text-[11px]">SHA-256 Hash</span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span className="text-slate-500">Replay Guard:</span>
+                  <span className="font-mono font-bold text-slate-900 bg-slate-100 px-1.5 py-0.5 rounded text-[11px]">Idempotent Key</span>
+                </li>
+              </ul>
             </div>
           </div>
 

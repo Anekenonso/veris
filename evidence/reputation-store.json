@@ -34,5 +34,41 @@
         "recorded": true
       }
     ]
+  },
+  {
+    "address": "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
+    "score": 1,
+    "totalJobs": 1,
+    "successCount": 1,
+    "failCount": 0,
+    "history": [
+      {
+        "jobId": "job-003-broken-code",
+        "worker": "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
+        "scoreDelta": 1,
+        "evidenceHash": "0xaf66e0ffc4a2d2387963cf04e18364f137fd9bfd215c27b0e6015e42228c8832",
+        "reason": "Successful verified delivery: The submitted TypeScript code defines and exports the required async function with correct signature, validates the reci...",
+        "timestamp": 1790700302771,
+        "recorded": true
+      }
+    ]
+  },
+  {
+    "address": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+    "score": -1,
+    "totalJobs": 1,
+    "successCount": 0,
+    "failCount": 1,
+    "history": [
+      {
+        "jobId": "job-002-blog-launch",
+        "worker": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+        "scoreDelta": -1,
+        "evidenceHash": "0xbaff4d357bcd225d0568dd8dd9df6c2c69879d43f2eb187599d7b50bf1ed747f",
+        "reason": "Failed delivery criteria: The submitted deliverable is a TypeScript code snippet, not a blog post. It lacks a title mentioning Arc Testnet and USD...",
+        "timestamp": 1790700369657,
+        "recorded": true
+      }
+    ]
   }
 ]
