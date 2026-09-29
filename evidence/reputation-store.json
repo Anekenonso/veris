@@ -1,11 +1,20 @@
 [
   {
     "address": "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
-    "score": 1,
-    "totalJobs": 3,
-    "successCount": 2,
+    "score": 2,
+    "totalJobs": 4,
+    "successCount": 3,
     "failCount": 1,
     "history": [
+      {
+        "jobId": "job-mumxqoba-enid",
+        "worker": "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
+        "scoreDelta": 1,
+        "evidenceHash": "0x638e364abb26c5750224cb22c265651a705a6cf1886921aafc7def1e6681536f",
+        "reason": "Successful verified delivery: All three acceptance criteria are satisfied: the report provides analysis of gas consumption, proposes two concrete byte...",
+        "timestamp": 1790702029630,
+        "recorded": true
+      },
       {
         "jobId": "job-001-arc-helper",
         "worker": "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",

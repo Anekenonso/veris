@@ -189,56 +189,72 @@ A visual **Confidence Meter Gauge** displays the AI calibration score against a 
 
 ## Smart Contract: ReputationRegistry.sol
 
+* **Deployed Address:** [`0xA687Be4b96e109d1d40826bF58cFFEbE4e1B63A1`](https://testnet.arcscan.io/address/0xA687Be4b96e109d1d40826bF58cFFEbE4e1B63A1)
+* **Deployment Tx:** [`0x373e51e4a5e5ba9de0ad20996400afbb302efa65f557e96c5302d48ba3cc8730`](https://testnet.arcscan.io/tx/0x373e51e4a5e5ba9de0ad20996400afbb302efa65f557e96c5302d48ba3cc8730)
+* **Verified Delivery Tx:** [`0x6cee9245a09cd5e537968d97a2e27d6f63d761705b0c5917f9c8c81af1bddaba`](https://testnet.arcscan.io/tx/0x6cee9245a09cd5e537968d97a2e27d6f63d761705b0c5917f9c8c81af1bddaba)
+* **Network:** Arc Testnet (Chain ID: `5042002`)
+* **Gas Token:** Native USDC
+
 Located at [`contracts/ReputationRegistry.sol`](./contracts/ReputationRegistry.sol):
 
 ```solidity
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.24;
+pragma solidity ^0.8.20;
 
 contract ReputationRegistry {
-    struct JobDelivery {
-        string jobId;
+    address public owner;
+    mapping(address => bool) public authorizedAgents;
+
+    struct JobRecord {
+        address worker;
         int8 scoreDelta; // +1 for approved, -1 for breach
-        string evidenceHash; // SHA-256 hash of criteria + deliverable
+        bytes32 evidenceHash; // SHA-256 hash of criteria + deliverable
         string reason; // Deterministic outcome summary
         uint256 timestamp;
+        bool recorded;
     }
 
-    struct ContractorReputation {
-        int256 totalScore;
-        uint256 completedJobs;
+    struct ReputationSummary {
+        int256 score;
+        uint256 totalJobs;
         uint256 successCount;
         uint256 failCount;
-        JobDelivery[] history;
     }
 
-    // Mapping: contractor address => reputation summary
-    mapping(address => ContractorReputation) private _reputations;
-    // Idempotency guard: jobId => already recorded
-    mapping(string => bool) public recordedJobs;
-
-    event DeliveryRecorded(
-        address indexed contractor,
-        string indexed jobId,
+    event ReputationUpdated(
+        address indexed worker,
+        bytes32 indexed jobId,
         int8 scoreDelta,
-        string evidenceHash,
+        bytes32 evidenceHash,
+        string reason,
         uint256 timestamp
     );
 
     function recordDelivery(
-        address contractor,
-        string calldata jobId,
+        address worker,
+        bytes32 jobId,
         int8 scoreDelta,
-        string calldata evidenceHash,
+        bytes32 evidenceHash,
         string calldata reason
     ) external;
 
-    function getReputation(address contractor) external view returns (
-        int256 totalScore,
-        uint256 completedJobs,
+    function getReputation(address worker) external view returns (
+        int256 score,
+        uint256 totalJobs,
         uint256 successCount,
         uint256 failCount
     );
+
+    function getJobRecord(bytes32 jobId) external view returns (
+        address worker,
+        int8 scoreDelta,
+        bytes32 evidenceHash,
+        string memory reason,
+        uint256 timestamp,
+        bool recorded
+    );
+
+    function getWorkerJobIds(address worker) external view returns (bytes32[] memory);
 }
 ```
 
@@ -279,10 +295,11 @@ OPENAI_API_KEY=gsk_your_groq_api_key_here
 OPENAI_BASE_URL=https://api.groq.com/openai/v1
 OPENAI_MODEL=openai/gpt-oss-120b
 
-# Arc Testnet & Contract Configuration
+# Arc Testnet & Live Contract Configuration
 ARC_RPC_URL=https://rpc.testnet.arc.network
 ARC_CHAIN_ID=5042002
-REPUTATION_REGISTRY_ADDRESS=0x9A676e781A523b5d0C0e43731313A708CB607508
+REPUTATION_REGISTRY_ADDRESS=0xA687Be4b96e109d1d40826bF58cFFEbE4e1B63A1
+ARC_ORCHESTRATOR_KEY=0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
 ```
 
 ### 4. Run Development Server

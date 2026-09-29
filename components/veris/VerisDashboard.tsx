@@ -466,11 +466,18 @@ export function transferEscrowFunds(recipient: any, amount: any) {
 
           {/* Network & Actions */}
           <div className="flex items-center gap-2 sm:gap-2.5">
-            <div className="hidden lg:flex items-center gap-2 h-9 px-3 rounded-lg badge-sapphire text-xs font-medium">
+            <a
+              href="https://testnet.arcscan.io/address/0xA687Be4b96e109d1d40826bF58cFFEbE4e1B63A1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden lg:flex items-center gap-2 h-9 px-3 rounded-lg badge-sapphire text-xs font-medium hover:brightness-95 transition cursor-pointer"
+              title="View ReputationRegistry on ArcScan Explorer (0xA687...63A1)"
+            >
               <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
               <span>Arc Testnet</span>
               <span className="font-mono font-bold tracking-tight">5042002</span>
-            </div>
+              <ExternalLink className="w-3 h-3 opacity-70 ml-0.5" />
+            </a>
 
             <div className="hidden sm:flex items-center gap-1.5 h-9 px-3 rounded-lg badge-teal text-xs font-medium">
               <Coins className="w-3.5 h-3.5" />
@@ -1864,13 +1871,27 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                                   {log.inputSummary}
                                 </td>
                                 <td className="p-3">
-                                  <span
-                                    className={`font-semibold ${
-                                      log.result === "SUCCESS" ? "text-emerald-600" : "text-rose-600"
-                                    }`}
-                                  >
-                                    {log.result}
-                                  </span>
+                                  <div className="flex items-center gap-1.5">
+                                    <span
+                                      className={`font-semibold ${
+                                        log.result === "SUCCESS" ? "text-emerald-600" : "text-rose-600"
+                                      }`}
+                                    >
+                                      {log.result}
+                                    </span>
+                                    {log.txHash && (
+                                      <a
+                                        href={`https://testnet.arcscan.io/tx/${log.txHash}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-[10px] text-teal-600 hover:text-teal-800 underline flex items-center gap-0.5 ml-1"
+                                        title={`View on ArcScan: ${log.txHash}`}
+                                      >
+                                        <span>Tx</span>
+                                        <ExternalLink className="w-2.5 h-2.5" />
+                                      </a>
+                                    )}
+                                  </div>
                                 </td>
                               </tr>
                             ))
@@ -1943,7 +1964,15 @@ export function transferEscrowFunds(recipient: any, amount: any) {
                 </li>
                 <li className="flex items-center gap-2">
                   <span className="text-teal-600 font-mono text-[11px] font-bold">04</span>
-                  <span>ReputationRegistry.sol Minting</span>
+                  <a
+                    href="https://testnet.arcscan.io/address/0xA687Be4b96e109d1d40826bF58cFFEbE4e1B63A1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-teal-700 underline underline-offset-2 flex items-center gap-1 transition"
+                  >
+                    <span>ReputationRegistry.sol (0xA687...63A1)</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
                 </li>
               </ul>
             </div>
