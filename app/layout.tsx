@@ -1,18 +1,27 @@
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, Newsreader, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
-const inter = Inter({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+const newsreader = Newsreader({
+  subsets: ["latin"],
+  variable: "--font-serif",
+  display: "swap",
+  style: ["normal", "italic"],
 });
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
   display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
 
 const defaultUrl = process.env.NEXT_PUBLIC_VERCEL_URL
@@ -21,9 +30,9 @@ const defaultUrl = process.env.NEXT_PUBLIC_VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Veris — Autonomous Milestone Escrow & On-Chain Delivery Reputation",
+  title: "Veris — Autonomous Milestone Escrow & Delivery Reputation",
   description:
-    "Institutional-grade autonomous multi-agent escrow on Arc Testnet (5042002) with AI verification calibration and deterministic on-chain delivery reputation.",
+    "Institutional milestone escrow on Arc Testnet with AI deliverable verification, deterministic settlement, and on-chain delivery reputation.",
 };
 
 export default function RootLayout({
@@ -34,14 +43,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable} dark`}
+      className={`${plusJakarta.variable} ${newsreader.variable} ${jetbrainsMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="bg-[#05070E] text-[#F1F5F9] font-sans antialiased min-h-screen selection:bg-cyan-500/30 selection:text-cyan-200">
+      <body className="min-h-full flex flex-col bg-[#F9FAFB] text-[#0F172A] font-sans antialiased selection:bg-teal-100 selection:text-teal-900">
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
-          forcedTheme="dark"
+          defaultTheme="light"
+          forcedTheme="light"
           enableSystem={false}
           disableTransitionOnChange
         >
@@ -49,7 +58,7 @@ export default function RootLayout({
             position="top-right"
             richColors
             toastOptions={{
-              className: "border border-cyan-500/30 bg-[#0B101E]/95 backdrop-blur-xl text-slate-100 font-sans shadow-2xl shadow-black/80",
+              className: "border border-slate-200/80 bg-white/95 backdrop-blur-md text-[#0F172A] font-sans shadow-lg",
             }}
           />
           {children}
