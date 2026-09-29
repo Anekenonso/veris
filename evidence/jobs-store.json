@@ -6,11 +6,17 @@
     "worker": "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
     "amountUSDC": 250,
     "criteria": "1. Export an async function 'transferEscrowFunds(recipient: string, amountUSDC: number, client: CircleClient): Promise<string>'\n2. Validates recipient address is a valid 42-char hex string starting with 0x.\n3. Validates amountUSDC > 0.\n4. Includes error handling returning meaningful Error messages.\n5. Written in TypeScript with explicit types (no 'any').",
-    "state": "FUNDED",
+    "state": "DELIVERABLE_SUBMITTED",
     "createdAt": 1790674075752,
     "fundedAt": 1790674175752,
     "fundingTxHash": "0x3f9821aa90be4c0b48f98df3c9b7405bead48480dc2735749a0c79e63e18a221",
-    "updatedAt": 1790674175752
+    "updatedAt": 1790692936755,
+    "deliverable": {
+      "type": "code",
+      "content": "import { CircleClient } from \"@circle-fin/developer-controlled-wallets\";\n\nconst ETH_ADDRESS_REGEX = /^0x[a-fA-F0-9]{40}$/;\n\nexport async function transferEscrowFunds(\n  recipient: string,\n  amountUSDC: number,\n  client: CircleClient\n): Promise<string> {\n  if (!ETH_ADDRESS_REGEX.test(recipient)) {\n    throw new Error(`Invalid recipient address: \"${recipient}\". Must be 42-char hex.`);\n  }\n  if (typeof amountUSDC !== \"number\" || isNaN(amountUSDC) || amountUSDC <= 0) {\n    throw new Error(`Invalid amount: \"${amountUSDC}\". Must be positive.`);\n  }\n\n  try {\n    const tx = await client.createTransaction({\n      destinationAddress: recipient,\n      amounts: [amountUSDC.toFixed(6)],\n      fee: { type: \"level\", config: { feeLevel: \"MEDIUM\" } }\n    });\n    return tx.data.id;\n  } catch (err: unknown) {\n    const msg = err instanceof Error ? err.message : \"Transaction failed\";\n    throw new Error(`Escrow transfer failed: ${msg}`);\n  }\n}",
+      "notes": "Fully typed implementation meeting all criteria with regex checks.",
+      "submittedAt": 1790692936755
+    }
   },
   {
     "id": "job-002-blog-launch",
