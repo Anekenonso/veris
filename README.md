@@ -21,8 +21,9 @@
 7. [REST API Specifications](#rest-api-specifications)
 8. [Smart Contract: ReputationRegistry.sol](#smart-contract-reputationregistrysol)
 9. [Proof Experiment: Section 4 Kill Test](#proof-experiment-section-4-kill-test)
-10. [Local Development Setup](#local-development-setup)
-11. [Roadmap & Future Extensions](#roadmap--future-extensions)
+10. [Judge Evidence Package & Demo Video Script](#judge-evidence-package--demo-video-script)
+11. [Local Development Setup](#local-development-setup)
+12. [Roadmap & Future Extensions](#roadmap--future-extensions)
 
 ---
 
@@ -271,6 +272,21 @@ Before frontend development, we performed the **Worksheet Section 4 Kill Test** 
 * **Verdict:** **PASSED (PROCEED)**
 
 Full reproducible logs and test payloads are documented under [`evidence/verifier-kill-test.md`](./evidence/verifier-kill-test.md).
+
+---
+
+## Judge Evidence Package & Demo Video Script
+
+For hackathon judges and technical reviewers, we have packaged reproducible evidence dossiers:
+
+* **[Live 2.5-Minute Video Walkthrough Script (`evidence/DEMO_SCRIPT.md`)](./evidence/DEMO_SCRIPT.md):**  
+  Second-by-second presenter script with screen directions, voiceover script, and timestamps covering both the **Happy Path** (fund $\to$ AI audit $\to$ 500 USDC release $\to$ on-chain score) and **Failure Path** (adversarial submission $\to$ deterministic rejection $\to$ automatic client refund $\to$ on-chain penalty).
+* **[Technical Evidence Package (`evidence/EVIDENCE_PACKAGE.md`)](./evidence/EVIDENCE_PACKAGE.md):**  
+  Comprehensive dossier compiling live Arc Testnet transaction receipts, ArcScan contract verification, Section 4 Kill Test results (100% accuracy on clear cases), and authority boundary matrices.
+* **[Section 4 Kill Test Report (`evidence/verifier-kill-test.md`)](./evidence/verifier-kill-test.md):**  
+  Empirical benchmarking logs evaluating 8 realistic deliverables against rubric criteria.
+* **[Tamper-Evident Audit Stream (`evidence/audit-log.jsonl`)](./evidence/audit-log.jsonl):**  
+  Immutable append-only JSONL log containing all lifecycle events and SHA-256 evidence hashes.
 
 ---
 
