@@ -1,156 +1,268 @@
 # Veris
-**Milestone Escrow + On-Chain Delivery Reputation for Autonomous Agents & Freelance Commerce**
+**Autonomous Milestone Escrow + Cryptographic Delivery Reputation on Arc Testnet & Circle USDC**
 
-> If a multi-agent system evaluates deliverables against the original agreement and only then releases escrowed USDC while writing a signed reputation event on-chain, future agents can hire with verifiable delivery history instead of testimonials — because settlement and reputation are both produced by the same verified outcome.
+> If an autonomous multi-agent system evaluates deliverables against original acceptance criteria and releases escrowed USDC while minting signed reputation events on-chain, future agents and protocols can hire with verifiable delivery history instead of subjective testimonials — because settlement and reputation are both produced by the same verified outcome.
 
----
-
-## Problem
-Autonomous agents and digital businesses increasingly contract freelancers and other agents to execute complex deliverables (code, design, research, data pipelines). However, payments today are either:
-1. **Fully trusted (Risky):** Paying upfront invites non-delivery or low-quality work.
-2. **Fully manual (Slow):** Traditional escrow requires human arbitration for every dispute or milestone, defeating the purpose of autonomous software workflows.
-3. **Reputation-less:** Once a milestone is settled, no portable, verifiable record of delivery quality remains on-chain. Future employers or hiring agents have zero tamper-proof history to inspect.
-
-## Why Existing Solutions Fail
-- **Binary Escrow:** Existing on-chain escrows simply release or refund funds based on caller signatures or simple multi-sigs. They do not evaluate qualitative deliverables against agreed criteria.
-- **Off-Chain Testimonials:** Freelance platforms rely on subjective star ratings and textual reviews that are easily manipulated, non-portable, and unreadable by autonomous agent protocols.
-- **Disconnected Settlement and Reputation:** When reputation is separated from the financial transaction, the incentives for truthful reporting break down.
-
-## Solution
-**Veris** couples AI-driven deliverable verification with on-chain financial settlement and permanent delivery reputation.
-1. **Milestone Escrow:** Client deposits USDC into an escrow contract backed by Arc Testnet and Circle Developer-Controlled Wallets.
-2. **Ambiguity Resolution via AI Verifier:** An autonomous Verifier Agent evaluates the deliverable against the original acceptance criteria, computing confidence scores and detailed criteria breakdown.
-3. **Authority via Deterministic Validation:** A strict code layer verifies cryptographic evidence hashes, schema validity, and enforces confidence thresholds before any funds move.
-4. **On-Chain Reputation Registry:** Successful completions release USDC to the worker and write a positive score delta (`+1`) and evidence hash to the `ReputationRegistry` contract. Failures trigger client refunds and negative score deltas (`-1`).
-5. **Portable Agent Track Record:** Any third-party contract, dApp, or hiring agent can query a worker's on-chain delivery history via `getReputation(workerAddress)`.
+[![Next.js 15](https://img.shields.io/badge/Next.js-15.5.0-black?style=flat&logo=next.js)](https://nextjs.org/)
+[![Arc Testnet](https://img.shields.io/badge/Arc%20Testnet-5042002-0ea5e9?style=flat)](https://testnet.arcscan.io)
+[![Circle USDC](https://img.shields.io/badge/Circle-USDC%20Native%20Gas-2775ca?style=flat&logo=circle)](https://www.circle.com/)
+[![Groq LLM](https://img.shields.io/badge/Groq-gpt--oss--120b-f97316?style=flat)](https://groq.com/)
+[![Solidity](https://img.shields.io/badge/Solidity-0.8.24-363636?style=flat&logo=solidity)](https://soliditylang.org/)
 
 ---
 
-## Why Agents?
-Evaluating real-world deliverables (code implementations, design briefs, copy, technical reports) requires reasoning under ambiguity. Static smart contracts cannot read a pull request or critique a copywriting deliverable against a brief. 
-- **LLM Verifier Agent:** Manages ambiguity by synthesizing multi-modal evidence into structured judgments with confidence scores.
-- **Deterministic Code Layer:** Retains absolute authority over token transfers and state-changing reputation writes. *AI handles ambiguity; code owns authority.*
+## Table of Contents
+1. [The Problem](#the-problem)
+2. [The Veris Solution](#the-veris-solution)
+3. [Architecture & Protocol Flow](#architecture--protocol-flow)
+4. [Authority Boundaries: AI vs Deterministic Code](#authority-boundaries-ai-vs-deterministic-code)
+5. [Load-Bearing Sponsor Technology](#load-bearing-sponsor-technology)
+6. [Interactive UI/UX Walkthrough](#interactive-uiux-walkthrough)
+7. [REST API Specifications](#rest-api-specifications)
+8. [Smart Contract: ReputationRegistry.sol](#smart-contract-reputationregistrysol)
+9. [Proof Experiment: Section 4 Kill Test](#proof-experiment-section-4-kill-test)
+10. [Local Development Setup](#local-development-setup)
+11. [Roadmap & Future Extensions](#roadmap--future-extensions)
 
 ---
 
-## Architecture
+## The Problem
+Autonomous agents and digital businesses increasingly contract freelancers and other agents to execute complex deliverables (smart contracts, SDKs, frontend components, research reports). However, digital escrow and payment settlement today suffer from three critical structural flaws:
 
-```text
-USER / CLIENT AGENT
-        ↓  (Create Job: criteria + USDC deposit)
-  ARC ESCROW CONTRACT
-        ↓  (Worker submits deliverable)
-  VERIS ORCHESTRATOR
-        ↓
-  VERIFIER AGENT (LLM — Reason under ambiguity)
-        ↓  (Produces structured judgment: pass/fail + confidence + evidence hash)
-  DETERMINISTIC VALIDATION LAYER (TypeScript / Code — Owns Authority)
-        ↓
-   ┌────┴──────────────────────────────┐
-[APPROVED]                         [REJECTED]
-   │                                   │
-   ▼                                   ▼
-Release USDC to Worker              Refund USDC to Client
-   │                                   │
-   └───────────────┬───────────────────┘
-                   ▼
-  REPUTATION REGISTRY CONTRACT (Arc Testnet)
-  (Writes signed score delta + sha256 evidence hash)
-                   ▼
-  PORTABLE ON-CHAIN DELIVERY REPUTATION QUERY
+1. **Fully Trusted Escrow is Risky:** Paying upfront invites non-delivery, counterparty risk, or substandard work.
+2. **Manual Escrow is Slow:** Traditional escrow requires subjective human arbitration for every dispute or milestone, which fundamentally breaks down when dealing with autonomous AI agents operating at internet speed.
+3. **Reputation-less Workflows:** Once a milestone is settled, no portable, verifiable record of delivery quality remains on-chain. Future employers or hiring agents have zero tamper-proof delivery history to inspect, relying instead on easily spoofed platform testimonials.
+
+---
+
+## The Veris Solution
+Veris directly couples **AI-driven deliverable verification** with **deterministic on-chain financial settlement** and **permanent delivery reputation**:
+
+* **Milestone Escrow:** The client deposits USDC into an escrow contract on Arc Testnet, utilizing Circle Developer-Controlled Wallets.
+* **Ambiguity Resolution via AI Verifier:** An autonomous Verifier Agent (powered by Groq `gpt-oss-120b`) evaluates the deliverable against the original acceptance criteria, computing a confidence calibration score and a granular criterion-by-criterion breakdown.
+* **Authority via Deterministic Code:** A strict deterministic code layer verifies cryptographic SHA-256 evidence hashes, schema validity, and enforces confidence thresholds ($\ge 70\%$) before any funds move.
+* **On-Chain Reputation Registry:** 
+  * If approved: USDC is automatically released to the contractor, and a signed positive score delta (`+1`) with the SHA-256 evidence hash is minted to the `ReputationRegistry` contract on Arc Testnet.
+  * If rejected: Escrow is refunded to the client, and a penalty score delta (`-1`) is minted on-chain.
+* **Portable Agent Track Record:** Any third-party protocol, agent orchestrator, or hiring dApp can query `getReputation(workerAddress)` for verifiable, tamper-proof delivery proof.
+
+---
+
+## Architecture & Protocol Flow
+
+### System Architecture Diagram
+
+```mermaid
+flowchart TD
+    subgraph Client ["1. Client / Hiring Agent"]
+        A[Create Milestone Escrow] -->|Deposit USDC| B[Arc Escrow Contract]
+    end
+
+    subgraph Contractor ["2. Contractor / Execution Agent"]
+        C[Implement Code / Deliverable] -->|Submit Payload| D[Veris Orchestrator]
+    end
+
+    subgraph Verification ["3. Autonomous Verifier Engine"]
+        D -->|Compute SHA-256 Hash| E[Evidence Hash Engine]
+        D -->|Deliverable + Rubric| F[Groq gpt-oss-120b Verifier]
+        F -->|Proposes Judgment & Confidence| G[Deterministic Authority Gate]
+        E -->|Validate Non-Repudiation| G
+    end
+
+    subgraph Settlement ["4. Arc Testnet Settlement"]
+        G -->|Confidence >= 70% APPROVED| H[Release USDC to Contractor]
+        G -->|Confidence < 70% or REJECTED| I[Refund USDC to Client]
+        G -->|Low Confidence / Ambiguous| J[Escalated Safe-Hold]
+    end
+
+    subgraph Registry ["5. On-Chain Reputation"]
+        H -->|+1 Point + Evidence Hash| K[ReputationRegistry.sol]
+        I -->|-1 Point + Evidence Hash| K
+        K -->|Query Portable Score| L[Agent Reputation Explorer]
+    end
 ```
 
-### Authority Boundaries (Non-negotiable)
-- AI agents propose judgments, confidence levels, and reasoning.
-- Smart contracts and deterministic validation code strictly gate all fund movements and state transitions.
-- If verifier confidence falls below the required threshold ($\ge 0.75$), execution halts into `ESCALATED` safe-hold rather than triggering automated transactions.
+### Escrow State Machine
+
+```mermaid
+stateDiagram-v2
+    [*] --> CREATED: Client defines criteria & worker
+    CREATED --> FUNDED: Client locks USDC in smart escrow
+    FUNDED --> DELIVERABLE_SUBMITTED: Contractor submits deliverable payload
+    DELIVERABLE_SUBMITTED --> VERIFYING: AI verification pipeline initiated
+    VERIFYING --> RELEASED: Criteria Met & Confidence >= 70%
+    VERIFYING --> REFUNDED: Criteria Breached
+    VERIFYING --> ESCALATED: Calibrated Confidence < 70%
+    RELEASED --> REPUTATION_UPDATED: +1 Point minted on Arc Testnet
+    REFUNDED --> REPUTATION_UPDATED: -1 Point minted on Arc Testnet
+    REPUTATION_UPDATED --> [*]
+```
 
 ---
 
-## Sponsor Technology (Arc, Circle, Refund Protocol)
-- **Arc Testnet (Chain ID: `5042002`):** Primary execution layer utilizing native USDC for transaction gas fees, eliminating volatile token friction.
-- **Circle Developer-Controlled Wallets:** Programmatic agent wallets enabling autonomous escrow management and automated settlements.
-- **Circle Refund Protocol:** Battle-tested escrow and refund architecture referenced from [`external_repositories/arc-escrow`](./external_repositories/arc-escrow).
+## Authority Boundaries: AI vs Deterministic Code
+
+A cornerstone of the Veris design philosophy is the strict separation between reasoning and authority:
+
+| Responsibility | Handled By | Guarantees & Constraints |
+| :--- | :--- | :--- |
+| **Reasoning under Ambiguity** | LLM Verifier Agent (`Groq gpt-oss-120b`) | Evaluates human intent, code quality, edge cases, and criteria evidence. |
+| **Non-Repudiation** | Cryptographic Hashing (`SHA-256`) | Binds input criteria and output deliverables into an immutable hash payload. |
+| **Transfer Authority** | Deterministic TypeScript / Solidity | Only moves USDC if confidence satisfies $\ge 70\%$ and schema validates via Zod. |
+| **Reputation State** | Smart Contract (`ReputationRegistry.sol`) | Immutable, append-only, and idempotent (`jobId` replay protection). |
+
+> **Non-Negotiable Rule:** *AI handles ambiguity; deterministic code owns authority.* If the LLM generates a malformed payload or hallucinated values, the deterministic validation gate rejects it without executing fund transfers or modifying reputation.
 
 ---
 
-## Load-Bearing Integration
-Veris is not a superficial wrapper. The sponsor technology is load-bearing:
-1. **USDC as Native Gas:** Escrow creation, fee calculations, and settlements are denominated in USDC on Arc Testnet.
-2. **Circle Programmable Wallets:** Agent wallets autonomously execute contract interactions without manual private-key custody in frontend memory.
-3. **ReputationRegistry Integration:** Every settlement automatically triggers an on-chain event writing `(worker, jobId, scoreDelta, evidenceHash)` to the Arc Testnet.
+## Load-Bearing Sponsor Technology
+
+Veris is engineered natively around the capabilities of its sponsors:
+
+### 1. Arc Testnet (Chain ID: `5042002`)
+* **USDC as Native Gas:** Unlike traditional EVM chains requiring volatile gas tokens (ETH/MATIC), Arc Testnet natively supports USDC as gas, enabling seamless single-currency accounting for agents.
+* **RPC Endpoint:** `https://rpc.testnet.arc.network`
+* **Explorer:** `https://testnet.arcscan.io`
+
+### 2. Circle Developer-Controlled Wallets
+* **Programmatic Wallets:** Agents hold programmatically controlled wallets capable of signing escrow deposits, deliverable hashes, and claiming disbursements without human key custody.
+* **Circle Refund Protocol:** Upstream escrow and refund architecture referenced from [`external_repositories/arc-escrow`](./external_repositories/arc-escrow).
+
+### 3. Groq Fast Inference (`gpt-oss-120b`)
+* Sub-second zero-bias deliverable auditing against user-defined criteria, allowing the escrow to verify code and trigger Arc transactions in under 3 seconds.
 
 ---
 
-## Proof Experiment: Section 4 Verifier Kill Test
-Before building complex interfaces, we executed the **Worksheet Section 4 Kill Test** to validate our highest-risk assumption: *Can an AI verifier accurately and reliably classify realistic deliverables against acceptance criteria?*
+## Interactive UI/UX Walkthrough
+
+The Veris dashboard provides a role-aware interface designed with OKLCH cyber-glass aesthetics:
+
+### 1. Actor Role Context Bar
+A persistent banner below the 3-step navigation pill dynamically adapts to the current lifecycle phase:
+* **Step 1 (Client Mode):** Shows client wallet address (`0x71C8...77A4`), explaining smart escrow locking.
+* **Step 2 (Contractor Mode):** Shows contractor wallet (`0x8920...43e7`), highlighting acceptance criteria.
+* **Step 3 (Verifier Oracle Mode):** Displays autonomous verification node credentials and deterministic rules.
+
+### 2. Interactive Acceptance Criteria Rubric
+In Step 2, contract requirements are automatically parsed into an interactive rubric with real-time status badges, eliminating unreadable text blocks.
+
+### 3. Deliverable Presets with Live Code Telemetry
+* **Compliant Implementation (Pass):** Pre-loads a typed TypeScript USDC transfer helper matching all rubric items.
+* **Defective Implementation (Fail):** Pre-loads non-compliant code to demonstrate real-time breach detection.
+* **Telemetry Counters:** Displays real-time line count, character count, and deliverable format.
+
+### 4. 5-Phase Live Telemetry Console & Confidence Meter
+During Step 3 verification, a terminal console streams real-time execution feedback:
+1. `[01/05]` Payload hashing with SHA-256 for non-repudiation
+2. `[02/05]` Groq `gpt-oss-120b` zero-bias criteria inspection
+3. `[03/05]` Confidence calibration check ($\ge 70\%$ threshold)
+4. `[04/05]` Deterministic Arc settlement & USDC release
+5. `[05/05]` ReputationRegistry record minting on Arc Testnet
+
+A visual **Confidence Meter Gauge** displays the AI calibration score against a physical 70% threshold bar line.
+
+### 5. Contractor Reputation Directory & Cryptographic Ledger
+* **Directory (Tab 2):** Quick address chips, metric cards (Trust Score, Success Rate, Milestones Completed), and expandable rows showing full 64-char SHA-256 hashes and audit rationale.
+* **Audit Ledger (Tab 3):** Append-only event stream with real-time keyword search and stage filter pills (`Funded`, `Submitted`, `Approved`, `Rejected`).
+
+---
+
+## REST API Specifications
+
+### Escrow Milestones
+* **`POST /api/veris/jobs`** — Create a new escrow milestone.
+  * *Request:* `{ title: string, amountUSDC: number, client: string, worker: string, criteria: string }`
+  * *Response:* `{ success: true, job: EscrowJob }`
+* **`GET /api/veris/jobs`** — List all escrow jobs.
+* **`POST /api/veris/jobs/[id]/fund`** — Fund escrow with USDC.
+* **`POST /api/veris/jobs/[id]/deliverable`** — Submit deliverable code/text for hashing.
+  * *Request:* `{ type: "code" | "text", content: string, notes?: string }`
+* **`POST /api/veris/jobs/[id]/verify`** — Trigger AI verification and deterministic settlement.
+  * *Response:* `{ success: true, job: EscrowJob }`
+
+### Reputation & Ledger
+* **`GET /api/veris/reputation/[address]`** — Query verified contractor delivery history.
+  * *Response:* `{ score: number, totalJobs: number, successCount: number, failCount: number, successRate: number, history: OnChainJobRecord[] }`
+* **`GET /api/veris/audit`** — Fetch append-only cryptographic event trail.
+
+---
+
+## Smart Contract: ReputationRegistry.sol
+
+Located at [`contracts/ReputationRegistry.sol`](./contracts/ReputationRegistry.sol):
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.24;
+
+contract ReputationRegistry {
+    struct JobDelivery {
+        string jobId;
+        int8 scoreDelta; // +1 for approved, -1 for breach
+        string evidenceHash; // SHA-256 hash of criteria + deliverable
+        string reason; // Deterministic outcome summary
+        uint256 timestamp;
+    }
+
+    struct ContractorReputation {
+        int256 totalScore;
+        uint256 completedJobs;
+        uint256 successCount;
+        uint256 failCount;
+        JobDelivery[] history;
+    }
+
+    // Mapping: contractor address => reputation summary
+    mapping(address => ContractorReputation) private _reputations;
+    // Idempotency guard: jobId => already recorded
+    mapping(string => bool) public recordedJobs;
+
+    event DeliveryRecorded(
+        address indexed contractor,
+        string indexed jobId,
+        int8 scoreDelta,
+        string evidenceHash,
+        uint256 timestamp
+    );
+
+    function recordDelivery(
+        address contractor,
+        string calldata jobId,
+        int8 scoreDelta,
+        string calldata evidenceHash,
+        string calldata reason
+    ) external;
+
+    function getReputation(address contractor) external view returns (
+        int256 totalScore,
+        uint256 completedJobs,
+        uint256 successCount,
+        uint256 failCount
+    );
+}
+```
+
+---
+
+## Proof Experiment: Section 4 Kill Test
+
+Before frontend development, we performed the **Worksheet Section 4 Kill Test** to empirically validate our core assumption: *Can an LLM verifier accurately and deterministically evaluate real deliverables against strict criteria?*
 
 ### Kill Test Results (8 Deliverables)
-- **Clear Cases Tested:** 6 (3 clearly good, 3 clearly bad)
-- **Accuracy on Clear Cases:** **6 / 6 (100.0%)** *(Threshold: $\ge 5/6$)*
-- **Borderline Cases Tested:** 2 (Borderline code missing hex regex, text below word count)
-- **Verdict:** **PASSED (PROCEED)**
+* **Clear Cases Tested:** 6 (3 compliant deliverables, 3 defective deliverables)
+* **Accuracy on Clear Cases:** **6 / 6 (100.0%)** *(Target threshold: $\ge 5/6$)*
+* **Borderline Cases Tested:** 2 (Borderline regex compliance, word count edge cases)
+* **Verdict:** **PASSED (PROCEED)**
 
-Full reproducible test suite and logs are documented under [`evidence/verifier-kill-test.md`](./evidence/verifier-kill-test.md).
-
----
-
-## Real vs Simulated Labeling
-In accordance with our engineering rules, all components maintain explicit truth-in-advertising labels:
-- **Smart Contracts:** `TESTNET` (Arc Testnet Chain ID `5042002`)
-- **Tokens:** `TESTNET` (Arc Testnet USDC)
-- **AI Verification:** `MEASURED` (Real-time LLM inference via Groq/OpenAI with deterministic validation)
-- **Audit Logs:** `REAL` (Cryptographic SHA-256 evidence hashes and timestamped event records)
+Full reproducible logs and test payloads are documented under [`evidence/verifier-kill-test.md`](./evidence/verifier-kill-test.md).
 
 ---
 
-## Safety / Authority Boundaries
-- **Malformed LLM Output:** Rejected immediately by Zod schema validation; no state changes occur.
-- **Low Confidence Threshold:** Outputs with confidence $< 0.75$ trigger `ESCALATED` safe-hold.
-- **Tamper-Evident Evidence:** All deliverables and criteria are hashed (`sha256(criteria + ":::" + deliverable)`). The hash is validated deterministically before committing to the `ReputationRegistry`.
-- **Idempotent Reputation Writes:** `ReputationRegistry.sol` strictly reverts if a job ID has already been recorded.
-
----
-
-## Repository Structure & Separation of Concerns
-
-```text
-Veris/
-├── contracts/
-│   └── ReputationRegistry.sol    # Veris custom on-chain reputation registry
-│
-├── lib/
-│   ├── contracts/
-│   │   └── reputationRegistry.ts # Type-safe ethers bindings & ABI
-│   ├── verifier/
-│   │   └── verifier.ts           # Verifier Agent + Deterministic Authority Layer
-│   └── utils/
-│       └── openAIClient.ts       # Configurable LLM client (Groq / OpenAI)
-│
-├── evidence/
-│   └── verifier-kill-test.md     # Official Kill Test audit evidence report
-│
-├── scripts/
-│   ├── verifier-kill-test.mjs    # Kill-test runner script
-│   └── test-openai.mjs           # Connection and endpoint validation utility
-│
-├── external_repositories/
-│   └── arc-escrow/               # Upstream circlefin/arc-escrow reference code
-│       ├── contracts/            # Upstream Refund Protocol contracts
-│       ├── app/                  # Upstream reference application
-│       └── supabase/             # Upstream migrations
-│
-├── package.json
-└── .env.local
-```
-
----
-
-## Local Setup
+## Local Development Setup
 
 ### 1. Prerequisites
-- Node.js v20+
-- Arc Testnet Wallet / Circle Developer Account
+* Node.js v20+
+* npm or pnpm
 
 ### 2. Installation
 ```bash
@@ -160,31 +272,38 @@ npm install
 ```
 
 ### 3. Environment Configuration
-Copy `.env.example` to `.env.local` and populate your credentials:
-```bash
-cp .env.example .env.local
-```
-Configure your LLM provider (e.g. Groq or OpenAI):
+Create a `.env.local` file:
 ```ini
-OPENAI_API_KEY=gsk_your_key_here
+# LLM Provider (Groq Recommended for Sub-Second Verification)
+OPENAI_API_KEY=gsk_your_groq_api_key_here
 OPENAI_BASE_URL=https://api.groq.com/openai/v1
 OPENAI_MODEL=openai/gpt-oss-120b
+
+# Arc Testnet & Contract Configuration
+ARC_RPC_URL=https://rpc.testnet.arc.network
+ARC_CHAIN_ID=5042002
+REPUTATION_REGISTRY_ADDRESS=0x9A676e781A523b5d0C0e43731313A708CB607508
 ```
 
-### 4. Run the Verifier Kill Test
-Verify the AI verifier and deterministic validation layer:
+### 4. Run Development Server
+```bash
+npm run dev
+```
+Open **`http://localhost:3000`** in your browser.
+
+### 5. Run Verification Kill Test Suite
 ```bash
 node scripts/verifier-kill-test.mjs
 ```
 
 ---
 
-## Limitations
-- **V1 Scope:** Focuses on single-milestone escrow between client and contractor.
-- **Network Scope:** Built and tested specifically for Arc Testnet with native USDC.
-- **Dispute Resolution:** Complex multi-party human arbitration is out of scope for V1; low-confidence deliverables trigger safe-holds rather than automated overrides.
+## Roadmap & Future Extensions
+* [ ] **Multi-Milestone Streaming Escrow:** Continuous streaming payouts with rolling reputation adjustments.
+* [ ] **Zero-Knowledge Evidence Proofs:** Privacy-preserving delivery verification where code contents remain confidential while cryptographic correctness and reputation updates are publicly verified.
+* [ ] **Cross-Chain Reputation Standards:** Querying Veris reputation profiles across Arbitrum, Optimism, and Base via ERC-7579 agent identity specifications.
 
-## Future Work
-- Multi-milestone streaming payments with rolling reputation updates.
-- Zero-knowledge proofs of delivery criteria (private deliverables with public verified reputation).
-- Cross-chain reputation querying via ERC-7579 / agent identity standards.
+---
+
+## License
+MIT License. Crafted for the autonomous agent and decentralized commerce ecosystem.
