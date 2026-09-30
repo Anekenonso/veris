@@ -261,9 +261,9 @@ contract ReputationRegistry {
 
 ---
 
-## Proof Experiment: Section 4 Kill Test
+## Proof Experiment: Kill Test
 
-Before frontend development, we performed the **Worksheet Section 4 Kill Test** to empirically validate our core assumption: *Can an LLM verifier accurately and deterministically evaluate real deliverables against strict criteria?*
+We performed **4 Kill Test** to empirically validate our core assumption: *Can an LLM verifier accurately and deterministically evaluate real deliverables against strict criteria?*
 
 ### Kill Test Results (8 Deliverables)
 * **Clear Cases Tested:** 6 (3 compliant deliverables, 3 defective deliverables)
@@ -275,12 +275,10 @@ Full reproducible logs and test payloads are documented under [`evidence/verifie
 
 ---
 
-## Judge Evidence Package & Demo Video Script
+## Judge Evidence Package
 
-For hackathon judges and technical reviewers, we have packaged reproducible evidence dossiers:
+We have packaged reproducible evidence dossiers:
 
-* **[Live 2.5-Minute Video Walkthrough Script (`evidence/DEMO_SCRIPT.md`)](./evidence/DEMO_SCRIPT.md):**  
-  Second-by-second presenter script with screen directions, voiceover script, and timestamps covering both the **Happy Path** (fund $\to$ AI audit $\to$ 500 USDC release $\to$ on-chain score) and **Failure Path** (adversarial submission $\to$ deterministic rejection $\to$ automatic client refund $\to$ on-chain penalty).
 * **[Technical Evidence Package (`evidence/EVIDENCE_PACKAGE.md`)](./evidence/EVIDENCE_PACKAGE.md):**  
   Comprehensive dossier compiling live Arc Testnet transaction receipts, ArcScan contract verification, Section 4 Kill Test results (100% accuracy on clear cases), and authority boundary matrices.
 * **[Section 4 Kill Test Report (`evidence/verifier-kill-test.md`)](./evidence/verifier-kill-test.md):**  
