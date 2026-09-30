@@ -32,9 +32,12 @@ for (const envVar of requiredEnvVars) {
   }
 }
 
+const cleanedApiKey = process.env.CIRCLE_API_KEY.trim().replace(/^['"]|['"]$/g, "");
+const cleanedSecret = process.env.CIRCLE_ENTITY_SECRET.trim().replace(/^['"]|['"]$/g, "");
+
 export const circleDeveloperSdk = initiateDeveloperControlledWalletsClient({
-  apiKey: process.env.CIRCLE_API_KEY,
-  entitySecret: process.env.CIRCLE_ENTITY_SECRET,
+  apiKey: cleanedApiKey,
+  entitySecret: cleanedSecret,
 });
 
 const blockchain = "ARC-TESTNET";

@@ -4,7 +4,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "generate-wallet": "node generate-wallet.mjs"
+    "generate-wallet": "node generate-wallet.mjs",
+    "circle:status": "node scripts/setup-circle.mjs check",
+    "circle:register": "node scripts/setup-circle.mjs register",
+    "circle:generate-secret": "node scripts/setup-circle.mjs generate-secret"
   },
   "dependencies": {
     "@circle-fin/developer-controlled-wallets": "^4.6.0",
