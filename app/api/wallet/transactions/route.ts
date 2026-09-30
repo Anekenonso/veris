@@ -42,15 +42,15 @@ const ResponseSchema = z.object({
 
 export type WalletTransactionsResponse = z.infer<typeof ResponseSchema>;
 
-if (!process.env.CIRCLE_API_KEY || !process.env.CIRCLE_ENTITY_SECRET) {
-  throw new Error(
-    "Missing required environment variables: CIRCLE_API_KEY and CIRCLE_ENTITY_SECRET must be defined",
-  );
-}
-
 export async function POST(
   req: NextRequest,
 ): Promise<NextResponse<WalletTransactionsResponse>> {
+  if (!process.env.CIRCLE_API_KEY || !process.env.CIRCLE_ENTITY_SECRET) {
+    return NextResponse.json(
+      { error: "Circle API credentials are not configured on this server" },
+      { status: 503 },
+    );
+  }
   try {
     const body = await req.json();
     const parseResult = WalletIdSchema.safeParse(body);
