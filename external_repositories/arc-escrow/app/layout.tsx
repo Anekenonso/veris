@@ -19,14 +19,14 @@
 import { EnvVarWarning } from "@/components/env-var-warning";
 import HeaderAuth from "@/components/header-auth";
 import { hasEnvVars } from "@/lib/utils/supabase/check-env-vars";
-import { Oxanium } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import Link from "next/link";
 import "./globals.css";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 
-const oxanium = Oxanium({
+const fontSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
@@ -47,7 +47,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={oxanium.variable} suppressHydrationWarning>
+    <html lang="en" className={fontSans.variable} suppressHydrationWarning>
       <body className="bg-background text-foreground font-sans">
         <ThemeProvider
           attribute="class"

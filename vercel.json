@@ -1,0 +1,29 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "app": {
+      "root": ".",
+      "framework": "nextjs",
+      "bindings": [
+        {
+          "type": "service",
+          "service": "arc-escrow",
+          "format": "url",
+          "env": "ARC_ESCROW_SERVICE_URL"
+        }
+      ]
+    },
+    "arc-escrow": {
+      "root": "external_repositories/arc-escrow",
+      "framework": "nextjs"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": {
+        "service": "app"
+      }
+    }
+  ]
+}

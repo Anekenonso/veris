@@ -19,11 +19,11 @@
 const { CIRCLE_API_KEY, CIRCLE_ENTITY_SECRET } = process.env;
 
 if (!CIRCLE_API_KEY?.trim()) {
-  throw new Error("CIRCLE_API_KEY environment variable is missing or empty");
+  console.warn("⚠️ CIRCLE_API_KEY environment variable is missing. Running in simulated/testnet mode.");
 }
 
 if (!CIRCLE_ENTITY_SECRET?.trim()) {
-  throw new Error("CIRCLE_ENTITY_SECRET environment variable is missing or empty");
+  console.warn("⚠️ CIRCLE_ENTITY_SECRET environment variable is missing. Running in simulated/testnet mode.");
 }
 
 /** @type {import('next').NextConfig} */
