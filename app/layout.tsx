@@ -15,6 +15,7 @@ const newsreader = Newsreader({
   variable: "--font-serif",
   display: "swap",
   style: ["normal", "italic"],
+  adjustFontFallback: false,
 });
 
 const jetbrainsMono = JetBrains_Mono({
