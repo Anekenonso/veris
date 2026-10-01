@@ -44,13 +44,26 @@ next-env.d.ts
 # Internal worksheets & notes
 Veris_Project_Worksheet.md
 
-# Demo videos & media assets
+# Demo videos, recordings & voiceover assets
 /Demo Video/
 /Demo Videos/
 /demo-video/
 /demo-videos/
-
-# Brag launch video assets
+/recordings/
 /brag-output*/
 /brag/
+scripts/record*
+scripts/screencast*
+*.mp4
+*.webm
+*.mov
+*.mkv
+*.avi
+*.wav
+*.mp3
+*.m4a
+*.aac
+*VOICEOVER*
+*voiceover*
+*narration*
 
