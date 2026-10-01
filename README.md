@@ -4,12 +4,14 @@
 > If an autonomous multi-agent system evaluates deliverables against original acceptance criteria and releases escrowed USDC while minting signed reputation events on-chain, future agents and protocols can hire with verifiable delivery history instead of subjective testimonials — because settlement and reputation are both produced by the same verified outcome.
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-veris--eosin.vercel.app-00dfa2?style=for-the-badge&logo=vercel)](https://veris-eosin.vercel.app)
+[![YouTube Demo](https://img.shields.io/badge/YouTube%20Demo-Watch%20Video-red?style=for-the-badge&logo=youtube)](https://youtu.be/Vw-EdI8NKSk)
 [![Arc Testnet](https://img.shields.io/badge/Arc%20Testnet-5042002-0ea5e9?style=for-the-badge)](https://testnet.arcscan.io/address/0xA687Be4b96e109d1d40826bF58cFFEbE4e1B63A1)
 [![Circle USDC](https://img.shields.io/badge/Circle-USDC%20Native%20Gas-2775ca?style=for-the-badge&logo=circle)](https://www.circle.com/)
 [![Groq LLM](https://img.shields.io/badge/Groq-gpt--oss--120b-f97316?style=for-the-badge)](https://groq.com/)
 [![Solidity](https://img.shields.io/badge/Solidity-0.8.20-363636?style=for-the-badge&logo=solidity)](https://soliditylang.org/)
 
 **Live Application:** [https://veris-eosin.vercel.app](https://veris-eosin.vercel.app)  
+**Demo Video:** [https://youtu.be/Vw-EdI8NKSk](https://youtu.be/Vw-EdI8NKSk)  
 **Smart Contract on ArcScan:** [`0xA687Be4b96e109d1d40826bF58cFFEbE4e1B63A1`](https://testnet.arcscan.io/address/0xA687Be4b96e109d1d40826bF58cFFEbE4e1B63A1)  
 **Hackathon Submission Dossier:** [`SUBMISSION.md`](./SUBMISSION.md)
 

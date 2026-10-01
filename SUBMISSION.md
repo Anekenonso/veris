@@ -27,6 +27,7 @@ When autonomous agents or digital businesses contract freelancers and other agen
 | Deliverable | URL / Reference | Details |
 | :--- | :--- | :--- |
 | **Live Deployed App** | [https://veris-eosin.vercel.app](https://veris-eosin.vercel.app) | Production Next.js deployment on Vercel |
+| **YouTube Video Demo** | [https://youtu.be/Vw-EdI8NKSk](https://youtu.be/Vw-EdI8NKSk) | Official YouTube submission video (2m 24s) |
 | **Smart Contract** | [`0xA687...63A1`](https://testnet.arcscan.io/address/0xA687Be4b96e109d1d40826bF58cFFEbE4e1B63A1) | Verified on ArcScan (Chain ID `5042002`) |
 | **Contract Deployment Tx** | [`0x373e...8730`](https://testnet.arcscan.io/tx/0x373e51e4a5e5ba9de0ad20996400afbb302efa65f557e96c5302d48ba3cc8730) | Deployed on live Arc Testnet |
 | **Delivery Settlement Tx** | [`0x6cee...daba`](https://testnet.arcscan.io/tx/0x6cee9245a09cd5e537968d97a2e27d6f63d761705b0c5917f9c8c81af1bddaba) | +1 delivery score minted to `ReputationRegistry` |
@@ -37,10 +38,9 @@ When autonomous agents or digital businesses contract freelancers and other agen
 
 ## 3. Demo Video Deliverables
 
-Located in the local project directory [`Demo Video/`](file:///c:/Users/USER/Documents/Software%20Development/AI%20SaaS/Veris/Demo%20Video) (excluded from git commits to preserve repository lightness):
-
-* **Primary Submission Video (Exact 2.4 min):**  
-  `Demo Video/veris_demo_matched_2.4min.mp4` (Duration: `02:24.00`, 7.45 MB)  
+* **Official YouTube Submission Link:** [https://youtu.be/Vw-EdI8NKSk](https://youtu.be/Vw-EdI8NKSk)
+* **Local Source Files** (located in [`Demo Video/`](file:///c:/Users/USER/Documents/Software%20Development/AI%20SaaS/Veris/Demo%20Video), excluded from git commits):
+  * **Primary Video (Exact 2.4 min):** `Demo Video/veris_demo_matched_2.4min.mp4` (Duration: `02:24.00`, 7.45 MB)
   *Paced to 2.4 minutes with stretched ElevenLabs voiceover and subtle background synth music.*
 * **Full-Length Video (2m 45s):**  
   `Demo Video/veris_demo_stretched_2m45s.mp4` (Duration: `02:45.00`, 9.03 MB)  
