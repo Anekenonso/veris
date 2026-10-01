@@ -170,9 +170,12 @@ async function syncTransactions(
   return uniqueTransactions;
 }
 
-const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
-  ? process.env.NEXT_PUBLIC_VERCEL_URL
-  : "http://localhost:3000";
+const rawBaseUrl = process.env.NEXT_PUBLIC_VERCEL_URL || "";
+const baseUrl = rawBaseUrl
+  ? rawBaseUrl.startsWith("http://") || rawBaseUrl.startsWith("https://")
+    ? rawBaseUrl
+    : `https://${rawBaseUrl}`
+  : "";
 
 const supabase = createSupabaseBrowserClient();
 

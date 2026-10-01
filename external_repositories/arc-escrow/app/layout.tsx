@@ -31,9 +31,14 @@ const fontSans = Plus_Jakarta_Sans({
   variable: "--font-sans",
 });
 
-const defaultUrl = process.env.NEXT_PUBLIC_VERCEL_URL
-  ? process.env.NEXT_PUBLIC_VERCEL_URL
-  : "http://localhost:3000";
+const rawUrl =
+  process.env.NEXT_PUBLIC_VERCEL_URL ||
+  process.env.VERCEL_URL ||
+  "http://localhost:3000";
+const defaultUrl =
+  rawUrl.startsWith("http://") || rawUrl.startsWith("https://")
+    ? rawUrl
+    : `https://${rawUrl}`;
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),

@@ -16,9 +16,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
-  ? process.env.NEXT_PUBLIC_VERCEL_URL
-  : "http://localhost:3000";
+const rawBaseUrl = process.env.NEXT_PUBLIC_VERCEL_URL || "http://localhost:3000";
+const baseUrl =
+  rawBaseUrl.startsWith("http://") || rawBaseUrl.startsWith("https://")
+    ? rawBaseUrl
+    : `https://${rawBaseUrl}`;
 
 export default async function Transaction({
   params,

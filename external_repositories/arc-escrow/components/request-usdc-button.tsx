@@ -27,9 +27,12 @@ interface Props {
   walletAddress: string;
 }
 
-const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
-  ? process.env.NEXT_PUBLIC_VERCEL_URL
-  : "http://localhost:3000";
+const rawBaseUrl = process.env.NEXT_PUBLIC_VERCEL_URL || "";
+const baseUrl = rawBaseUrl
+  ? rawBaseUrl.startsWith("http://") || rawBaseUrl.startsWith("https://")
+    ? rawBaseUrl
+    : `https://${rawBaseUrl}`
+  : "";
 
 export const RequestUsdcButton: FunctionComponent<Props> = ({ walletAddress }) => {
   const [requesting, setRequesting] = useState(false);
